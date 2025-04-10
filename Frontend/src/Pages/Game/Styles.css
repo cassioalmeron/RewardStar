@@ -1,0 +1,230 @@
+.game-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #1a1a1a;
+  min-height: 100vh;
+}
+
+.game-container h1 {
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.game-content {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.game-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin-top: 20px;
+}
+
+.game-table th {
+  background-color: transparent;
+  color: white;
+  font-weight: bold;
+  padding: 8px;
+  text-align: center;
+  border: none;
+}
+
+.game-table td {
+  padding: 8px;
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+  background-color: #3a3a3a;
+}
+
+.game-row:hover {
+  background-color: transparent;
+}
+
+.game-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.game-position {
+  background-color: #2196F3;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+  display: inline-block;
+}
+
+.game-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.game-select {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  padding: 8px !important;
+  width: 200px;
+}
+
+.game-select.difficulty-easy {
+  background-color: #66bb6a;
+  color: black;
+}
+
+.game-select.difficulty-medium {
+  background-color: #42a5f5;
+  color: white;
+}
+
+.game-select.difficulty-hard {
+  background-color: #ffa726;
+  color: white;
+}
+
+.button-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-game-btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.add-game-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-game-btn {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.delete-game-btn:hover {
+  background-color: #d32f2f;
+}
+
+.reset-button {
+  background-color: #ef5350;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #e53935;
+  transform: translateY(-1px);
+}
+
+.game-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.game-button:hover {
+  background-color: #43a047;
+  transform: translateY(-1px);
+}
+
+.done-text {
+  color: black;
+  font-weight: bold;
+  background-color: #ffeb3b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  font-size: 0.9em;
+}
+
+.disabled-text {
+  color: #666;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.done-text-footer {
+  color: black;
+  font-weight: bold;
+  font-size: 0.9em;
+  background-color: #ffeb3b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.footer-row {
+  background-color: transparent;
+}
+
+.footer-row td {
+  border: none;
+  padding: 8px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: white;
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #ef5350;
+  background-color: rgba(239, 83, 80, 0.1);
+  border-radius: 6px;
+  margin: 20px 0;
+}
+
+/* Ajustes para o Toast */
+:root {
+  --toastify-color-success: #66bb6a;
+  --toastify-color-error: #ef5350;
+  --toastify-color-info: #42a5f5;
+} 
