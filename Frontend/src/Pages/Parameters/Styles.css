@@ -1,0 +1,52 @@
+.parameters-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.parameters-title {
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.parameters-form-group {
+  margin-bottom: 20px;
+}
+
+.parameters-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.parameters-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.parameters-save-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.parameters-save-button:hover {
+  background-color: #0056b3;
+}
+
+.parameters-save-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+} 
