@@ -1,0 +1,44 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: rewardstar-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+      - DB_PATH=/app/data/RewardStar.db
+    volumes:
+      - ./Backend/data:/app/data
+    networks:
+      - rewardstar-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: rewardstar-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - rewardstar-network
+    restart: unless-stopped
+
+networks:
+  rewardstar-network:
+    driver: bridge
+
+volumes:
+  backend-data:
+    driver: local

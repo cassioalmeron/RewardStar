@@ -8,9 +8,16 @@ public class RewardStartDbContext : DbContext
 {
     public RewardStartDbContext()
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DBPath = Path.Combine(path, "RewardStar.db");
+        // Support both Docker (via environment variable) and local development
+        var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
+        if (!string.IsNullOrEmpty(dbPath))
+            DBPath = dbPath;
+        else
+        {
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            DBPath = Path.Combine(path, "RewardStar.db");
+        }
     }
 
     public string DBPath { get; }
