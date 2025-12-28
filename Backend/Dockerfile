@@ -20,29 +20,35 @@ RUN dotnet build "RewardStart.sln" -c Release -o /app/build
 
 # Publish the API
 FROM build AS publish
-RUN dotnet publish "RewardStar.Api/RewardStar.Api.csproj" -c Release -o /app/publish
-
-# Copy entrypoint script to publish output
-COPY entrypoint.sh /app/publish/entrypoint.sh
-RUN chmod +x /app/publish/entrypoint.sh
+RUN dotnet publish "RewardStar.Api/RewardStar.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+
+# Install curl for health checks and clean apt cache to minimize image size
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 # Copy published application
 COPY --from=publish /app/publish .
 
-# Create database directory for SQLite
-RUN mkdir -p /app/data
+# Create database directory for SQLite with proper permissions
+RUN mkdir -p /app/data && chmod 755 /app/data
 
-# Expose port
-EXPOSE 5000
+# ARG for configurable port (passed from docker-compose.yml)
+ARG API_PORT=5002
 
-# Set environment variables for HTTP-only in production
-ENV ASPNETCORE_URLS=http://+:5000
+# Expose port using ARG
+EXPOSE ${API_PORT}
+
+# Set environment variables (will be overridden by docker-compose.yml)
+ENV ASPNETCORE_URLS=http://+:${API_PORT}
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV DB_PATH=/app/data/RewardStar.db
+
+# Health check using ARG
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
+    CMD curl -f http://localhost:${API_PORT}/health || exit 1
 
 ENTRYPOINT ["sh", "-c", "exec dotnet RewardStar.Api.dll"]
