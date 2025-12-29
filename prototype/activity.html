@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Star - Activity Schedule</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2196F3',
+                        'primary-dark': '#1976D2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="app-layout">
+        <!-- Left Sidebar Navigation -->
+        <nav class="sidebar bg-primary shadow-lg flex flex-col">
+            <div class="p-4 border-b border-white/20">
+                <h2 class="text-white text-xl font-bold flex items-center gap-3">
+                    <span class="text-2xl">⭐</span>
+                    <span class="sidebar-text whitespace-nowrap">Reward Star</span>
+                </h2>
+            </div>
+            <ul class="flex flex-col p-2 gap-1">
+                <li>
+                    <a href="home.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="game.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Game</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="activity.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10 bg-white/20">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Activity</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content p-5">
+            <div class="container mx-auto">
+                <h1 class="text-3xl text-gray-800 text-center mb-5">Activity Schedule</h1>
+
+                <div class="bg-white p-5 rounded-lg shadow max-w-7xl mx-auto">
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3 mb-5">
+                        <button class="px-5 py-2.5 bg-green-600 text-white rounded hover:bg-green-700 transition-smooth">
+                            Add new Activity
+                        </button>
+                        <button class="px-5 py-2.5 bg-primary text-white rounded hover:bg-primary-dark transition-smooth">
+                            Save
+                        </button>
+                    </div>
+
+                    <!-- Activity Table -->
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full border-collapse mt-5">
+                            <thead>
+                                <tr>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Position</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Description</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Level</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Monday</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Tuesday</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Wednesday</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Thursday</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Friday</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Active</th>
+                                    <th class="bg-gray-100 p-3 text-left font-semibold text-gray-800 border-b-2 border-gray-300">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 -->
+                                <tr class="bg-gray-100 hover:bg-blue-50 transition-smooth">
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="number" value="1" min="1"
+                                               class="w-20 text-center p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="text" value="Morning Exercise"
+                                               class="w-full p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <select class="w-full p-2 border border-gray-300 rounded level-badge-easy">
+                                            <option value="1">Easy</option>
+                                            <option value="2">Medium</option>
+                                            <option value="3">Hard</option>
+                                        </select>
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-smooth text-sm">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr class="bg-gray-100 hover:bg-blue-50 transition-smooth">
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="number" value="2" min="1"
+                                               class="w-20 text-center p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="text" value="Study Programming"
+                                               class="w-full p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <select class="w-full p-2 border border-gray-300 rounded level-badge-medium">
+                                            <option value="1">Easy</option>
+                                            <option value="2" selected>Medium</option>
+                                            <option value="3">Hard</option>
+                                        </select>
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-smooth text-sm">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3 -->
+                                <tr class="bg-gray-100 hover:bg-blue-50 transition-smooth">
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="number" value="3" min="1"
+                                               class="w-20 text-center p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <input type="text" value="Deep Work Session"
+                                               class="w-full p-2 border border-gray-300 rounded input-dark">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <select class="w-full p-2 border border-gray-300 rounded level-badge-hard">
+                                            <option value="1">Easy</option>
+                                            <option value="2">Medium</option>
+                                            <option value="3" selected>Hard</option>
+                                        </select>
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300 text-center">
+                                        <input type="checkbox" checked class="w-5 h-5 cursor-pointer">
+                                    </td>
+                                    <td class="p-3 border-b border-gray-300">
+                                        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-smooth text-sm">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

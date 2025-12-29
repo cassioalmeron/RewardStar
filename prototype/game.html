@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Star - Week Game</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2196F3',
+                        'primary-dark': '#1976D2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#1a1a1a] text-white">
+    <div class="app-layout">
+        <!-- Left Sidebar Navigation -->
+        <nav class="sidebar bg-primary shadow-lg flex flex-col">
+            <div class="p-4 border-b border-white/20">
+                <h2 class="text-white text-xl font-bold flex items-center gap-3">
+                    <span class="text-2xl">⭐</span>
+                    <span class="sidebar-text whitespace-nowrap">Reward Star</span>
+                </h2>
+            </div>
+            <ul class="flex flex-col p-2 gap-1">
+                <li>
+                    <a href="home.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="game.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10 bg-white/20">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Game</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="activity.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Activity</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="settings.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content p-5">
+            <div class="container mx-auto">
+                <h1 class="text-3xl text-white text-center mb-5">Week Game</h1>
+
+                <div class="bg-[#2a2a2a] p-5 rounded-xl shadow-lg max-w-5xl mx-auto">
+                    <!-- Action Button -->
+                    <div class="flex justify-end mb-5">
+                        <button class="px-5 py-2.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-smooth hover:-translate-y-0.5">
+                            Reset Game
+                        </button>
+                    </div>
+
+                    <!-- Game Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-separate border-spacing-1">
+                            <thead>
+                                <tr>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Description</th>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Monday</th>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Tuesday</th>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Wednesday</th>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Thursday</th>
+                                    <th class="bg-transparent text-white font-bold p-2 text-center">Friday</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 - Easy -->
+                                <tr>
+                                    <td class="p-2 text-center rounded-md font-bold game-level-easy w-52">
+                                        Match pairs of cards
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="#66bb6a" style="display: inline-block;">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <span class="text-gray-500 font-bold">X</span>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 - Medium -->
+                                <tr>
+                                    <td class="p-2 text-center rounded-md font-bold game-level-medium w-52">
+                                        Find hidden words
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="#42a5f5" style="display: inline-block;">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3 - Hard -->
+                                <tr>
+                                    <td class="p-2 text-center rounded-md font-bold game-level-hard w-52">
+                                        Solve math problems
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffa726" style="display: inline-block;">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                            Click
+                                        </button>
+                                    </td>
+                                    <td class="p-2 text-center rounded-md bg-[#3a3a3a]">
+                                        <span class="text-gray-500 font-bold">X</span>
+                                    </td>
+                                </tr>
+
+                                <!-- Footer Row -->
+                                <tr>
+                                    <td class="bg-transparent"></td>
+                                    <td class="p-2 text-center bg-transparent"></td>
+                                    <td class="p-2 text-center bg-transparent"></td>
+                                    <td class="p-2 text-center bg-transparent"></td>
+                                    <td class="p-2 text-center bg-transparent"></td>
+                                    <td class="p-2 text-center bg-transparent">
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="#facc15" style="display: inline-block;">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

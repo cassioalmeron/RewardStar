@@ -1,0 +1,133 @@
+/* ============================================
+   SHARED STYLES FOR REWARD STAR PROTOTYPES
+   ============================================ */
+
+/* Theme Variables */
+:root {
+    /* Colors from original app */
+    --color-primary: #2196F3;
+    --color-primary-dark: #1976D2;
+    --color-success: #4CAF50;
+    --color-success-dark: #45a049;
+    --color-danger: #f44336;
+    --color-danger-dark: #d32f2f;
+    --color-warning: #FF9800;
+
+    /* Level colors */
+    --level-easy: #5cc073;
+    --level-medium: #00c1ff;
+    --level-hard: #fab95e;
+
+    /* Game level colors */
+    --game-easy: #66bb6a;
+    --game-medium: #42a5f5;
+    --game-hard: #ffa726;
+
+    /* Backgrounds */
+    --bg-light: #f5f5f5;
+    --bg-dark: #1a1a1a;
+    --bg-card-dark: #2a2a2a;
+    --bg-cell-dark: #3a3a3a;
+}
+
+/* Custom Component Styles */
+.level-badge-easy {
+    background-color: var(--level-easy);
+    color: black;
+}
+
+.level-badge-medium {
+    background-color: var(--level-medium);
+    color: white;
+}
+
+.level-badge-hard {
+    background-color: var(--level-hard);
+    color: white;
+}
+
+.game-level-easy {
+    background-color: var(--game-easy);
+    color: black;
+}
+
+.game-level-medium {
+    background-color: var(--game-medium);
+    color: white;
+}
+
+.game-level-hard {
+    background-color: var(--game-hard);
+    color: white;
+}
+
+/* Input styling for dark backgrounds */
+.input-dark {
+    background-color: var(--bg-cell-dark);
+    color: white;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+    transition: all 0.3s ease;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Sidebar Navigation Styles */
+.sidebar {
+    width: 240px;
+    transition: width 0.3s ease;
+}
+
+.sidebar-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.sidebar-text {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* Mobile: Icon-only sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-text {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+    }
+}
+
+/* App Layout */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    overflow-x: hidden;
+}
