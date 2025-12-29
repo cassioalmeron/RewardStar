@@ -1,9 +1,10 @@
 import React from 'react';
-import './Styles.css';
+import './styles.css';
 
 const Home: React.FC = () => {
   return (
     <div className="home">
+      <div className="home-star">⭐</div>
       <h1>Reward Star</h1>
       <p>The Ultimate Life Game</p>
       <p>Procrastination Runs Away</p>

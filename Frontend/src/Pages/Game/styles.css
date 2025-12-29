@@ -168,30 +168,10 @@
   transform: translateY(-1px);
 }
 
-.done-text {
-  color: black;
-  font-weight: bold;
-  background-color: #ffeb3b;
-  padding: 6px 12px;
-  border-radius: 6px;
-  display: inline-block;
-  font-size: 0.9em;
-}
-
 .disabled-text {
   color: #666;
   font-weight: bold;
   font-size: 1em;
-}
-
-.done-text-footer {
-  color: black;
-  font-weight: bold;
-  font-size: 0.9em;
-  background-color: #ffeb3b;
-  padding: 6px 12px;
-  border-radius: 6px;
-  display: inline-block;
 }
 
 .footer-row {

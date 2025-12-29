@@ -3,7 +3,7 @@ import api from '../../services/api';
 import { Level } from '../../Types/Level';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Styles.css';
+import './styles.css';
 
 interface ActivityItem {
   id: number;
@@ -117,7 +117,6 @@ const Activity: React.FC = () => {
         ...activity,
         id: activity.id < 0 ? 0 : activity.id
       }));
-      console.log(activitiesToSave);
       await api.post('/Activities', activitiesToSave);
       setActivities(activitiesToSave);
       toast.success('Activities saved successfully!');

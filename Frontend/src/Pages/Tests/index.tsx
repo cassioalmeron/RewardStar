@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import './Styles.css';
+import { toast } from 'react-toastify';
+import './styles.css';
 
 interface TestItem {
   id: string;
@@ -37,10 +38,10 @@ const Tests: React.FC = () => {
   };
 
   const showOrder = () => {
-    const orderMessage = tests.map((test) => 
+    const orderMessage = tests.map((test) =>
       `${test.position}. ${test.content}`
     ).join('\n');
-    alert('Current Order:\n\n' + orderMessage);
+    toast.info(`Current Order:\n\n${orderMessage}`);
   };
 
   return (

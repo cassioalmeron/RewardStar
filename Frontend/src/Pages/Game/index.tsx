@@ -3,7 +3,8 @@ import { Level } from '../../Types/Level';
 import api from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Styles.css';
+import { StarIcon } from '../../Components/icons';
+import './styles.css';
 
 interface GameItem {
   id: string;
@@ -78,7 +79,20 @@ const GameCell: React.FC<GameCellProps> = ({ game, day, index, onToggle, isCompl
   }
 
   if (isCompleted) {
-    return <span className="done-text">DONE!</span>;
+    // Determine star color based on game level
+    let starColor = '#facc15'; // default yellow
+    switch (game.level) {
+      case Level.Easy:
+        starColor = '#66bb6a'; // green
+        break;
+      case Level.Medium:
+        starColor = '#42a5f5'; // blue
+        break;
+      case Level.Hard:
+        starColor = '#ffa726'; // orange
+        break;
+    }
+    return <StarIcon color={starColor} size={32} />;
   }
 
   return (
@@ -232,7 +246,7 @@ const Game: React.FC = () => {
   return (
     <div className="game-container">
       <ToastContainer />
-      <h1>Games Management</h1>
+      <h1>Week Game</h1>
       <div className="game-content">
         <div className="button-container">
           <button 
@@ -313,19 +327,19 @@ const Game: React.FC = () => {
             <tr className="footer-row">
               <td></td>
               <td>
-                {isColumnComplete('monday') && <span className="done-text-footer">DONE!</span>}
+                {isColumnComplete('monday') && <StarIcon color="#facc15" size={32} />}
               </td>
               <td>
-                {isColumnComplete('tuesday') && <span className="done-text-footer">DONE!</span>}
+                {isColumnComplete('tuesday') && <StarIcon color="#facc15" size={32} />}
               </td>
               <td>
-                {isColumnComplete('wednesday') && <span className="done-text-footer">DONE!</span>}
+                {isColumnComplete('wednesday') && <StarIcon color="#facc15" size={32} />}
               </td>
               <td>
-                {isColumnComplete('thursday') && <span className="done-text-footer">DONE!</span>}
+                {isColumnComplete('thursday') && <StarIcon color="#facc15" size={32} />}
               </td>
               <td>
-                {isColumnComplete('friday') && <span className="done-text-footer">DONE!</span>}
+                {isColumnComplete('friday') && <StarIcon color="#facc15" size={32} />}
               </td>
             </tr>
           </tbody>

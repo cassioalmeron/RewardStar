@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import './Styles.css'
+import './styles.css'
 
-const Parameters = () => {
+const Settings = () => {
   const [apiUrl, setApiUrl] = useState('')
 
   // Load API URL from localStorage on component mount
@@ -44,11 +44,11 @@ const Parameters = () => {
   }
 
   return (
-    <div className="parameters-container">
-      <h1 className="parameters-title">Parameters</h1>
-      
-      <div className="parameters-form-group">
-        <label htmlFor="apiUrl" className="parameters-label">
+    <div className="settings-container">
+      <h1 className="settings-title">Settings</h1>
+
+      <div className="settings-form-group">
+        <label htmlFor="apiUrl" className="settings-label">
           API URL:
         </label>
         <input
@@ -57,13 +57,13 @@ const Parameters = () => {
           value={apiUrl}
           onChange={handleApiUrlChange}
           placeholder="https://api.example.com"
-          className="parameters-input"
+          className="settings-input"
         />
       </div>
 
-      <button 
+      <button
         onClick={handleSave}
-        className="parameters-save-button"
+        className="settings-save-button"
         disabled={!apiUrl.trim()}
       >
         Save
@@ -72,4 +72,4 @@ const Parameters = () => {
   )
 }
 
-export default Parameters
+export default Settings
