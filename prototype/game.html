@@ -82,15 +82,18 @@
                 <h1 class="text-3xl text-white text-center mb-5">Week Game</h1>
 
                 <div class="bg-[#2a2a2a] p-5 rounded-xl shadow-lg max-w-5xl mx-auto">
-                    <!-- Action Button -->
-                    <div class="flex justify-end mb-5">
-                        <button class="px-5 py-2.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-smooth hover:-translate-y-0.5">
+                    <!-- Points Display and Action Button -->
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="text-white text-lg font-bold">
+                            Total Points: <span id="totalPoints">0</span>
+                        </div>
+                        <button id="resetButton" class="px-5 py-2.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-smooth hover:-translate-y-0.5">
                             Reset Game
                         </button>
                     </div>
 
                     <!-- Game Table -->
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mb-8">
                         <table class="w-full border-separate border-spacing-1">
                             <thead>
                                 <tr>
@@ -211,9 +214,269 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Rewards Section -->
+                    <div class="border-t border-gray-600 pt-6">
+                        <h2 class="text-2xl text-white font-bold mb-4 text-center">Rewards</h2>
+
+                        <!-- Balance Display -->
+                        <div class="text-center mb-6">
+                            <div class="text-white text-xl font-bold">
+                                Available Balance: <span id="balancePoints" class="text-yellow-400">0</span> points
+                            </div>
+                        </div>
+
+                        <!-- Reward Claim Buttons -->
+                        <div class="flex justify-center gap-4 flex-wrap">
+                            <button id="claimMMs"
+                                    class="reward-button w-40 px-6 py-3 bg-green-600 text-white rounded-lg font-bold text-base transition-smooth hover:bg-green-700 hover:-translate-y-0.5 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                                    disabled>
+                                Claim M&Ms<br><span class="text-sm">(2 points)</span>
+                            </button>
+                            <button id="claimBibs"
+                                    class="reward-button w-40 px-6 py-3 bg-amber-800 text-white rounded-lg font-bold text-base transition-smooth hover:bg-amber-900 hover:-translate-y-0.5 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                                    disabled>
+                                Claim Bibs<br><span class="text-sm">(4 points)</span>
+                            </button>
+                            <button id="claimCaramel"
+                                    class="reward-button w-40 px-6 py-3 bg-amber-600 text-white rounded-lg font-bold text-base transition-smooth hover:bg-amber-700 hover:-translate-y-0.5 disabled:bg-gray-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                                    disabled>
+                                Claim Caramel<br><span class="text-sm">(6 points)</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        // Point values by difficulty level
+        const POINTS = {
+            easy: 1,
+            medium: 2,
+            hard: 3
+        };
+
+        // Reward costs
+        const REWARDS = {
+            mms: 2,
+            bibs: 4,
+            caramel: 6
+        };
+
+        // Game state management
+        let gameState = {
+            totalPoints: 0,
+            balance: 0,
+            completedGames: {}
+        };
+
+        // Load game state from localStorage
+        function loadGameState() {
+            const saved = localStorage.getItem('weekGameState');
+            if (saved) {
+                gameState = JSON.parse(saved);
+                updatePointsDisplay();
+            }
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            localStorage.setItem('weekGameState', JSON.stringify(gameState));
+        }
+
+        // Update points display
+        function updatePointsDisplay() {
+            document.getElementById('totalPoints').textContent = gameState.totalPoints;
+            document.getElementById('balancePoints').textContent = gameState.balance;
+            updateRewardButtons();
+        }
+
+        // Update reward button states based on balance
+        function updateRewardButtons() {
+            document.getElementById('claimMMs').disabled = gameState.balance < REWARDS.mms;
+            document.getElementById('claimBibs').disabled = gameState.balance < REWARDS.bibs;
+            document.getElementById('claimCaramel').disabled = gameState.balance < REWARDS.caramel;
+        }
+
+        // Get difficulty level from row
+        function getDifficultyFromRow(row) {
+            const descCell = row.querySelector('td:first-child');
+            if (descCell.classList.contains('game-level-easy')) return 'easy';
+            if (descCell.classList.contains('game-level-medium')) return 'medium';
+            if (descCell.classList.contains('game-level-hard')) return 'hard';
+            return null;
+        }
+
+        // Toggle game completion
+        function toggleGame(button) {
+            const cell = button.closest('td');
+            const row = button.closest('tr');
+            const difficulty = getDifficultyFromRow(row);
+
+            if (!difficulty) return;
+
+            const rowIndex = Array.from(row.parentElement.children).indexOf(row);
+            const cellIndex = Array.from(row.children).indexOf(cell);
+            const gameKey = `${rowIndex}-${cellIndex}`;
+
+            // Determine star color based on difficulty
+            const starColors = {
+                easy: '#66bb6a',
+                medium: '#42a5f5',
+                hard: '#ffa726'
+            };
+
+            // Toggle completion
+            if (gameState.completedGames[gameKey]) {
+                // Uncomplete: remove points and balance, show button
+                gameState.totalPoints -= POINTS[difficulty];
+                gameState.balance -= POINTS[difficulty];
+                delete gameState.completedGames[gameKey];
+
+                cell.innerHTML = `
+                    <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                        Click
+                    </button>
+                `;
+            } else {
+                // Complete: add points and balance, show star
+                gameState.totalPoints += POINTS[difficulty];
+                gameState.balance += POINTS[difficulty];
+                gameState.completedGames[gameKey] = difficulty;
+
+                cell.innerHTML = `
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="${starColors[difficulty]}" style="display: inline-block;">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                `;
+            }
+
+            updatePointsDisplay();
+            saveGameState();
+            attachButtonListeners();
+        }
+
+        // Attach event listeners to all game buttons
+        function attachButtonListeners() {
+            const buttons = document.querySelectorAll('tbody button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    toggleGame(this);
+                });
+            });
+        }
+
+        // Claim reward
+        function claimReward(rewardType, cost) {
+            if (gameState.balance >= cost) {
+                gameState.balance -= cost;
+                updatePointsDisplay();
+                saveGameState();
+
+                // Show success notification
+                showNotification(`Successfully claimed ${rewardType}! (-${cost} points)`, 'success');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg text-white font-bold z-50 ${
+                type === 'success' ? 'bg-green-600' : 'bg-red-600'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Reset game
+        function resetGame() {
+            if (confirm('Are you sure you want to reset the game? This will clear all progress, points, and balance.')) {
+                gameState = {
+                    totalPoints: 0,
+                    balance: 0,
+                    completedGames: {}
+                };
+
+                // Reset all cells to show buttons (except X markers)
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach((row, rowIndex) => {
+                    if (rowIndex === 3) return; // Skip footer row
+
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach((cell, cellIndex) => {
+                        if (cellIndex === 0) return; // Skip description cell
+
+                        // Check if this cell should have an X marker (original disabled state)
+                        const hasX = cell.textContent.trim() === 'X';
+
+                        if (!hasX) {
+                            cell.innerHTML = `
+                                <button class="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700 transition-smooth font-bold text-sm hover:-translate-y-0.5">
+                                    Click
+                                </button>
+                            `;
+                        }
+                    });
+                });
+
+                updatePointsDisplay();
+                saveGameState();
+                attachButtonListeners();
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            attachButtonListeners();
+
+            // Restore completed games from state
+            Object.keys(gameState.completedGames).forEach(gameKey => {
+                const [rowIndex, cellIndex] = gameKey.split('-').map(Number);
+                const rows = document.querySelectorAll('tbody tr');
+                const row = rows[rowIndex];
+                if (row) {
+                    const cell = row.children[cellIndex];
+                    const difficulty = gameState.completedGames[gameKey];
+
+                    const starColors = {
+                        easy: '#66bb6a',
+                        medium: '#42a5f5',
+                        hard: '#ffa726'
+                    };
+
+                    cell.innerHTML = `
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="${starColors[difficulty]}" style="display: inline-block;">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    `;
+                }
+            });
+
+            attachButtonListeners();
+
+            // Reset button
+            document.getElementById('resetButton').addEventListener('click', resetGame);
+
+            // Reward claim buttons
+            document.getElementById('claimMMs').addEventListener('click', function() {
+                claimReward('M&Ms', REWARDS.mms);
+            });
+
+            document.getElementById('claimBibs').addEventListener('click', function() {
+                claimReward('Bibs', REWARDS.bibs);
+            });
+
+            document.getElementById('claimCaramel').addEventListener('click', function() {
+                claimReward('Caramel', REWARDS.caramel);
+            });
+        });
+    </script>
 </body>
 </html>
