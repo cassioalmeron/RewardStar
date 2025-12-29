@@ -102,7 +102,19 @@
 .button-container {
   margin-bottom: 20px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.points-display {
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.points-value {
+  color: #4CAF50;
+  font-size: 1.2em;
 }
 
 .add-game-btn {
@@ -207,4 +219,98 @@
   --toastify-color-success: #66bb6a;
   --toastify-color-error: #ef5350;
   --toastify-color-info: #42a5f5;
+}
+
+/* Rewards Section */
+.rewards-section {
+  border-top: 2px solid #4a4a4a;
+  padding-top: 30px;
+  margin-top: 40px;
+}
+
+.rewards-title {
+  color: white;
+  font-size: 1.8em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.balance-display {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.balance-text {
+  color: white;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.balance-value {
+  color: #facc15;
+  font-size: 1.2em;
+}
+
+.reward-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.reward-button {
+  width: 160px;
+  padding: 16px 24px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.reward-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.reward-button:disabled {
+  background-color: #666 !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.reward-button:disabled:hover {
+  transform: none;
+}
+
+.reward-button-mms {
+  background-color: #66bb6a;
+}
+
+.reward-button-mms:hover:not(:disabled) {
+  background-color: #57a65a;
+}
+
+.reward-button-bibs {
+  background-color: #b8860b;
+}
+
+.reward-button-bibs:hover:not(:disabled) {
+  background-color: #9a7009;
+}
+
+.reward-button-caramel {
+  background-color: #ffa726;
+}
+
+.reward-button-caramel:hover:not(:disabled) {
+  background-color: #fb8c00;
+}
+
+.reward-cost {
+  font-size: 0.85em;
+  font-weight: normal;
 } 

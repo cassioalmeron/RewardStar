@@ -31,6 +31,20 @@ type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday';
 
 const STORAGE_KEY = 'gameActivities';
 const COMPLETION_KEY = 'gameCompletions';
+const POINTS_KEY = 'gamePoints';
+const BALANCE_KEY = 'gameBalance';
+
+const POINTS = {
+  [Level.Easy]: 1,
+  [Level.Medium]: 2,
+  [Level.Hard]: 3
+};
+
+const REWARDS = {
+  mms: 2,
+  bibs: 4,
+  caramel: 6
+};
 
 const initialGames: GameItem[] = [
   {
@@ -116,6 +130,16 @@ const Game: React.FC = () => {
     return savedCompletions ? JSON.parse(savedCompletions) : {};
   });
 
+  const [totalPoints, setTotalPoints] = useState<number>(() => {
+    const savedPoints = localStorage.getItem(POINTS_KEY);
+    return savedPoints ? JSON.parse(savedPoints) : 0;
+  });
+
+  const [balance, setBalance] = useState<number>(() => {
+    const savedBalance = localStorage.getItem(BALANCE_KEY);
+    return savedBalance ? JSON.parse(savedBalance) : 0;
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -127,6 +151,14 @@ const Game: React.FC = () => {
     localStorage.setItem(COMPLETION_KEY, JSON.stringify(completions));
   }, [completions]);
 
+  useEffect(() => {
+    localStorage.setItem(POINTS_KEY, JSON.stringify(totalPoints));
+  }, [totalPoints]);
+
+  useEffect(() => {
+    localStorage.setItem(BALANCE_KEY, JSON.stringify(balance));
+  }, [balance]);
+
   const handleDayToggle = (index: number, day: DayOfWeek) => {
     const game = games[index];
     const gameCompletions = completions[game.id] || {
@@ -136,6 +168,20 @@ const Game: React.FC = () => {
       thursday: false,
       friday: false
     };
+
+    const isCurrentlyCompleted = gameCompletions[day];
+    const pointsForThisGame = POINTS[game.level];
+
+    // Update points and balance based on toggle action
+    if (isCurrentlyCompleted) {
+      // Uncompleting - subtract points and balance
+      setTotalPoints(prev => prev - pointsForThisGame);
+      setBalance(prev => prev - pointsForThisGame);
+    } else {
+      // Completing - add points and balance
+      setTotalPoints(prev => prev + pointsForThisGame);
+      setBalance(prev => prev + pointsForThisGame);
+    }
 
     setCompletions(prev => ({
       ...prev,
@@ -191,7 +237,11 @@ const Game: React.FC = () => {
         const response = await api.get('Game');
         setGames(response.data);
         localStorage.removeItem(COMPLETION_KEY);
+        localStorage.removeItem(POINTS_KEY);
+        localStorage.removeItem(BALANCE_KEY);
         setCompletions({});
+        setTotalPoints(0);
+        setBalance(0);
         toast.success('Games reset successfully!');
       } catch (err) {
         const errorMessage = 'Error loading games from API. Using local data.';
@@ -207,7 +257,11 @@ const Game: React.FC = () => {
         }));
         setGames(resetGames);
         localStorage.removeItem(COMPLETION_KEY);
+        localStorage.removeItem(POINTS_KEY);
+        localStorage.removeItem(BALANCE_KEY);
         setCompletions({});
+        setTotalPoints(0);
+        setBalance(0);
         toast.error(errorMessage);
       } finally {
         setLoading(false);
@@ -243,14 +297,24 @@ const Game: React.FC = () => {
     return gameCompletions ? gameCompletions[day] : false;
   };
 
+  const handleClaimReward = (rewardType: string, cost: number) => {
+    if (balance >= cost) {
+      setBalance(prev => prev - cost);
+      toast.success(`Successfully claimed ${rewardType}! (-${cost} points)`);
+    }
+  };
+
   return (
     <div className="game-container">
       <ToastContainer />
       <h1>Week Game</h1>
       <div className="game-content">
         <div className="button-container">
-          <button 
-            onClick={handleReset} 
+          <div className="points-display">
+            Total Points: <span className="points-value">{totalPoints}</span>
+          </div>
+          <button
+            onClick={handleReset}
             className="reset-button"
             disabled={loading}
           >
@@ -344,6 +408,46 @@ const Game: React.FC = () => {
             </tr>
           </tbody>
         </table>
+
+        {/* Rewards Section */}
+        <div className="rewards-section">
+          <h2 className="rewards-title">Rewards</h2>
+
+          {/* Balance Display */}
+          <div className="balance-display">
+            <div className="balance-text">
+              Available Balance: <span className="balance-value">{balance}</span> points
+            </div>
+          </div>
+
+          {/* Reward Claim Buttons */}
+          <div className="reward-buttons">
+            <button
+              onClick={() => handleClaimReward('M&Ms', REWARDS.mms)}
+              className="reward-button reward-button-mms"
+              disabled={balance < REWARDS.mms}
+            >
+              Claim M&Ms<br />
+              <span className="reward-cost">(2 points)</span>
+            </button>
+            <button
+              onClick={() => handleClaimReward('Bibs', REWARDS.bibs)}
+              className="reward-button reward-button-bibs"
+              disabled={balance < REWARDS.bibs}
+            >
+              Claim Bibs<br />
+              <span className="reward-cost">(4 points)</span>
+            </button>
+            <button
+              onClick={() => handleClaimReward('Caramel', REWARDS.caramel)}
+              className="reward-button reward-button-caramel"
+              disabled={balance < REWARDS.caramel}
+            >
+              Claim Caramel<br />
+              <span className="reward-cost">(6 points)</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
