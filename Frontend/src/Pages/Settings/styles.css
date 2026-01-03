@@ -11,42 +11,8 @@
   text-align: center;
 }
 
-.settings-form-group {
-  margin-bottom: 20px;
-}
-
-.settings-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+.settings-message {
   color: #555;
-}
-
-.settings-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  text-align: center;
   font-size: 16px;
-  box-sizing: border-box;
-}
-
-.settings-save-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.settings-save-button:hover {
-  background-color: #0056b3;
-}
-
-.settings-save-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
 } 

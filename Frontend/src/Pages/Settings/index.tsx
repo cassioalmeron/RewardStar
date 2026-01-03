@@ -1,73 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
+import React from 'react'
 import './styles.css'
 
-const Settings = () => {
-  const [apiUrl, setApiUrl] = useState('')
-
-  // Load API URL from localStorage on component mount
-  useEffect(() => {
-    const savedApiUrl = localStorage.getItem('apiUrl')
-    if (savedApiUrl) {
-      setApiUrl(savedApiUrl)
-    }
-  }, [])
-
-  // Handle input change
-  const handleApiUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setApiUrl(event.target.value)
-  }
-
-  // Save API URL to localStorage when button is clicked
-  const handleSave = () => {
-    try {
-      localStorage.setItem('apiUrl', apiUrl)
-      toast.success('API URL saved successfully!', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-    } catch (error) {
-      toast.error('Failed to save API URL. Please try again.', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      })
-      console.error('Error saving API URL:', error)
-    }
-  }
-
+const Settings: React.FC = () => {
   return (
     <div className="settings-container">
       <h1 className="settings-title">Settings</h1>
-
-      <div className="settings-form-group">
-        <label htmlFor="apiUrl" className="settings-label">
-          API URL:
-        </label>
-        <input
-          id="apiUrl"
-          type="url"
-          value={apiUrl}
-          onChange={handleApiUrlChange}
-          placeholder="https://api.example.com"
-          className="settings-input"
-        />
-      </div>
-
-      <button
-        onClick={handleSave}
-        className="settings-save-button"
-        disabled={!apiUrl.trim()}
-      >
-        Save
-      </button>
+      <p className="settings-message">
+        Future configuration options will be available here.
+      </p>
     </div>
   )
 }
