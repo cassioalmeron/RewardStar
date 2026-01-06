@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reward Star - Activity Schedule</title>
+    <title>Activity - Reward Star</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -64,6 +64,15 @@
                     </a>
                 </li>
                 <li>
+                    <a href="admin-users.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Users</span>
+                    </a>
+                </li>
+                <li>
                     <a href="settings.html"
                        class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
                         <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,7 +82,25 @@
                         <span class="sidebar-text whitespace-nowrap">Settings</span>
                     </a>
                 </li>
+                <li>
+                    <a href="profile.html"
+                       class="flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                        <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="sidebar-text whitespace-nowrap">Profile</span>
+                    </a>
+                </li>
             </ul>
+            <div class="mt-auto p-2">
+                <button onclick="logout()"
+                   class="w-full flex items-center gap-3 text-white text-base font-medium px-4 py-3 rounded transition-smooth hover:bg-white/10">
+                    <svg class="sidebar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span class="sidebar-text whitespace-nowrap">Logout</span>
+                </button>
+            </div>
         </nav>
 
         <!-- Main Content -->
@@ -111,7 +138,7 @@
                             </thead>
                             <tbody>
                                 <!-- Row 1 -->
-                                <tr class="bg-gray-100 hover:bg-blue-50 transition-smooth">
+                                <tr class="bg-white hover:bg-blue-50 transition-smooth">
                                     <td class="p-3 border-b border-gray-300">
                                         <input type="number" value="1" min="1"
                                                class="w-20 text-center p-2 border border-gray-300 rounded input-dark">
@@ -122,7 +149,7 @@
                                     </td>
                                     <td class="p-3 border-b border-gray-300">
                                         <select class="w-full p-2 border border-gray-300 rounded level-badge-easy">
-                                            <option value="1">Easy</option>
+                                            <option value="1" selected>Easy</option>
                                             <option value="2">Medium</option>
                                             <option value="3">Hard</option>
                                         </select>
@@ -153,13 +180,13 @@
                                 </tr>
 
                                 <!-- Row 2 -->
-                                <tr class="bg-gray-100 hover:bg-blue-50 transition-smooth">
+                                <tr class="bg-gray-50 hover:bg-blue-50 transition-smooth">
                                     <td class="p-3 border-b border-gray-300">
                                         <input type="number" value="2" min="1"
                                                class="w-20 text-center p-2 border border-gray-300 rounded input-dark">
                                     </td>
                                     <td class="p-3 border-b border-gray-300">
-                                        <input type="text" value="Study Programming"
+                                        <input type="text" value="Read Technical Book"
                                                class="w-full p-2 border border-gray-300 rounded input-dark">
                                     </td>
                                     <td class="p-3 border-b border-gray-300">
@@ -242,5 +269,14 @@
             </div>
         </main>
     </div>
+
+    <script>
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // In production, this would clear the authentication token
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
 </body>
 </html>

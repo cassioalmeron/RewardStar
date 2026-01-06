@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Reward Star</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#2196F3',
+                        'primary-dark': '#1976D2',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Container -->
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-md w-full">
+            <!-- Logo and Header -->
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">⭐</div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Reward Star</h1>
+                <p class="text-gray-600">Sign in to your account</p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <form id="loginForm" novalidate>
+                    <!-- Email Field -->
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            E-mail
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
+                            placeholder="Enter your email address"
+                            required
+                        >
+                        <p id="email-error" class="mt-2 text-sm text-red-600 hidden"></p>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            Password
+                        </label>
+                        <div class="relative">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-smooth"
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                aria-label="Toggle password visibility"
+                            >
+                                <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                <svg id="eyeOffIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p id="password-error" class="mt-2 text-sm text-red-600 hidden"></p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="formError" class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg hidden">
+                        <p class="text-sm text-red-600"></p>
+                    </div>
+
+                    <!-- Success Message -->
+                    <div id="formSuccess" class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
+                        <p class="text-sm text-green-600"></p>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button
+                        type="submit"
+                        id="loginBtn"
+                        class="w-full bg-primary text-white py-3 px-4 rounded-lg font-medium hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-smooth"
+                    >
+                        <span id="loginBtnText">Sign In</span>
+                        <span id="loginBtnLoading" class="hidden">
+                            <svg class="inline w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Signing in...
+                        </span>
+                    </button>
+
+                    <!-- Forgot Password Link -->
+                    <div class="mt-4 text-center">
+                        <a href="#" class="text-sm text-primary hover:text-primary-dark transition-smooth">
+                            Forgot your password?
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                    </div>
+                </div>
+
+                <!-- Google Sign-In Button -->
+                <button
+                    type="button"
+                    id="googleSignIn"
+                    class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 transition-smooth"
+                >
+                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                </button>
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">New to Reward Star?</span>
+                    </div>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center">
+                    <a
+                        href="register.html"
+                        class="inline-block w-full border border-primary text-primary py-3 px-4 rounded-lg font-medium hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-smooth"
+                    >
+                        Create an account
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Link -->
+            <div class="mt-6 text-center">
+                <a href="home.html" class="text-sm text-gray-600 hover:text-gray-800 transition-smooth">
+                    ← Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginBtnText = document.getElementById('loginBtnText');
+        const loginBtnLoading = document.getElementById('loginBtnLoading');
+        const formError = document.getElementById('formError');
+        const formSuccess = document.getElementById('formSuccess');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const eyeOffIcon = document.getElementById('eyeOffIcon');
+
+        // Toggle password visibility
+        togglePasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            eyeIcon.classList.toggle('hidden');
+            eyeOffIcon.classList.toggle('hidden');
+        });
+
+        // Clear error messages on input
+        emailInput.addEventListener('input', function() {
+            clearFieldError('email');
+            hideMessage(formError);
+        });
+
+        passwordInput.addEventListener('input', function() {
+            clearFieldError('password');
+            hideMessage(formError);
+        });
+
+        // Google Sign-In
+        const googleSignInBtn = document.getElementById('googleSignIn');
+
+        googleSignInBtn.addEventListener('click', function() {
+            // Show loading message
+            showSuccessMessage('Redirecting to Google sign-in...');
+
+            // Simulate Google OAuth redirect
+            setTimeout(() => {
+                // In production, this would redirect to Google OAuth
+                // For demo, simulate successful Google authentication
+                showSuccessMessage('Google authentication successful! Redirecting...');
+
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1500);
+            }, 1000);
+        });
+
+        // Form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Clear previous messages
+            hideAllMessages();
+
+            // Get form values
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            // Validation
+            let isValid = true;
+
+            if (!email) {
+                showFieldError('email', 'E-mail is required');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showFieldError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!password) {
+                showFieldError('password', 'Password is required');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // Show loading state
+            setLoadingState(true);
+
+            // Simulate API call
+            setTimeout(() => {
+                // Simulate successful login
+                // In real app, this would be an actual API call
+
+                // For demo purposes, accept any credentials
+                showSuccessMessage('Login successful! Redirecting...');
+
+                // Redirect to home page after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1500);
+
+                setLoadingState(false);
+
+                // Uncomment below to simulate login failure
+                /*
+                showErrorMessage('Invalid username or password. Please try again.');
+                setLoadingState(false);
+                */
+
+                // Uncomment below to simulate inactive account
+                /*
+                showErrorMessage('Your account has been deactivated. Please contact support.');
+                setLoadingState(false);
+                */
+            }, 1500);
+        });
+
+        // Helper functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showFieldError(fieldName, message) {
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            const inputElement = document.getElementById(fieldName);
+
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+            inputElement.classList.add('border-red-500', 'focus:ring-red-500');
+            inputElement.classList.remove('border-gray-300', 'focus:ring-primary');
+        }
+
+        function clearFieldError(fieldName) {
+            const errorElement = document.getElementById(`${fieldName}-error`);
+            const inputElement = document.getElementById(fieldName);
+
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+            inputElement.classList.remove('border-red-500', 'focus:ring-red-500');
+            inputElement.classList.add('border-gray-300', 'focus:ring-primary');
+        }
+
+        function showErrorMessage(message) {
+            formError.querySelector('p').textContent = message;
+            formError.classList.remove('hidden');
+        }
+
+        function showSuccessMessage(message) {
+            formSuccess.querySelector('p').textContent = message;
+            formSuccess.classList.remove('hidden');
+        }
+
+        function hideMessage(element) {
+            element.classList.add('hidden');
+        }
+
+        function hideAllMessages() {
+            hideMessage(formError);
+            hideMessage(formSuccess);
+            clearFieldError('username');
+            clearFieldError('password');
+        }
+
+        function setLoadingState(isLoading) {
+            if (isLoading) {
+                loginBtn.disabled = true;
+                loginBtnText.classList.add('hidden');
+                loginBtnLoading.classList.remove('hidden');
+                loginBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            } else {
+                loginBtn.disabled = false;
+                loginBtnText.classList.remove('hidden');
+                loginBtnLoading.classList.add('hidden');
+                loginBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+    </script>
+</body>
+</html>
