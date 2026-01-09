@@ -14,15 +14,16 @@ namespace RewardStart.Core.Migrations
                 name: "Activity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", Npgsql.EntityFrameworkCore.PostgreSQL.Metadata.NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Level = table.Column<int>(type: "INTEGER", nullable: false),
-                    Monday = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Tuesday = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Wednesday = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Thursday = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Friday = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Description = table.Column<string>(nullable: false),
+                    Level = table.Column<int>(nullable: false),
+                    Monday = table.Column<bool>(nullable: false),
+                    Tuesday = table.Column<bool>(nullable: false),
+                    Wednesday = table.Column<bool>(nullable: false),
+                    Thursday = table.Column<bool>(nullable: false),
+                    Friday = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

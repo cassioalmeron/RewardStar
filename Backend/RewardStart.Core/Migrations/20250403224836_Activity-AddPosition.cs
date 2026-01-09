@@ -13,7 +13,6 @@ namespace RewardStart.Core.Migrations
             migrationBuilder.AddColumn<int>(
                 name: "Position",
                 table: "Activity",
-                type: "INTEGER",
                 nullable: false,
                 defaultValue: 0);
         }

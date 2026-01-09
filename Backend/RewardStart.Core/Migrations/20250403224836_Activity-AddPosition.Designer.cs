@@ -22,36 +22,26 @@ namespace RewardStart.Core.Migrations
             modelBuilder.Entity("RewardStart.Core.Models.Activity", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Active");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .IsRequired();
 
-                    b.Property<bool>("Friday")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Friday");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("Level");
 
-                    b.Property<bool>("Monday")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Monday");
 
-                    b.Property<int>("Position")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("Position");
 
-                    b.Property<bool>("Thursday")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Thursday");
 
-                    b.Property<bool>("Tuesday")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Tuesday");
 
-                    b.Property<bool>("Wednesday")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("Wednesday");
 
                     b.HasKey("Id");
 

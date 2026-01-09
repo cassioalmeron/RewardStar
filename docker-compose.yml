@@ -12,6 +12,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
       - DB_PATH=${DB_PATH}
+      - DATABASE_URL=${DATABASE_URL}
     volumes:
       - backend-data:/app/data
     networks:
