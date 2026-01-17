@@ -12,6 +12,12 @@ public class Activity : EntityBase
     public bool Friday { get; set; }
     public int Position { get; set; }
     public bool Active { get; set; }
+
+    // Foreign Key
+    public int UserId { get; set; }
+
+    // Navigation Property (nullable for model binding)
+    public User? User { get; set; }
 }
 
 public enum Level

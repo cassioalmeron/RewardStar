@@ -16,10 +16,12 @@ COPY . .
 # ARG for build-time environment variables (placed AFTER source copy for optimal caching)
 ARG VITE_API_URL=http://localhost:5002/api
 ARG VITE_APP_NAME=RewardStar
+ARG VITE_GOOGLE_CLIENT_ID=
 
 # Set environment variables for Vite build
 ENV VITE_API_URL=${VITE_API_URL}
 ENV VITE_APP_NAME=${VITE_APP_NAME}
+ENV VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
 
 # Build application
 RUN npm run build

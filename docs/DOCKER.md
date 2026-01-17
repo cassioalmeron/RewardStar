@@ -37,7 +37,9 @@ RewardStar/
 - **Container Name**: `rewardstar-backend`
 - **Port**: `5000` (HTTP), `5001` (HTTPS)
 - **Environment**: Production
-- **Database**: SQLite (persistent volume at `/app/data`)
+- **Database**: SQLite (default) or PostgreSQL (configurable via `DATABASE_URL`)
+  - SQLite: persistent volume at `/app/data`
+  - PostgreSQL: external database via connection string
 
 **Build Strategy**: Multi-stage build
 - Stage 1 (`build`): SDK image for compilation
@@ -162,36 +164,137 @@ docker-compose up -d
 
 ## Environment Configuration
 
-### Backend Environment Variables
+RewardStar uses a single `.env` file in the project root for all Docker configuration. This file is required before running the application.
+
+### Required Environment File
+
+Copy the example environment file and configure it:
+
+```bash
+# The .env file should already exist in the root directory
+# If not, create it with the required variables below
+```
+
+### Environment Variables Reference
+
+The `.env` file in the project root contains all configuration for both services:
+
+#### Backend Configuration
 
 ```env
+# API Port Configuration
+API_PORT=5003
+
+# ASP.NET Core Configuration
+ASPNETCORE_URLS=http://+:5003
 ASPNETCORE_ENVIRONMENT=Production
-ASPNETCORE_URLS=http://+:5000;https://+:5001
+
+# Database Configuration
+# Option 1: SQLite (default)
+DB_PATH=/app/data/RewardStar.db
+
+# Option 2: PostgreSQL (uncomment to use)
+# DATABASE_URL=Host=postgres;Port=5432;Database=rewardstar;Username=postgres;Password=yourpassword
 ```
 
-To use custom environment variables, create a `.env` file in the root:
+#### Frontend Configuration
 
 ```env
-ASPNETCORE_ENVIRONMENT=Development
+# Frontend API URL (build-time variable)
+# This is baked into the frontend build during docker build
+# For Docker: Use http://localhost:{API_PORT}/api
+# The port should match the BACKEND_HOST_PORT for external access
+VITE_API_URL=http://localhost:5003/api
+
+# Application Name (optional)
+VITE_APP_NAME=RewardStar
 ```
 
-Then reference in `docker-compose.yml`:
+#### Docker Port Mapping
 
-```yaml
-env_file:
-  - .env
+```env
+# Backend external port (host machine)
+BACKEND_HOST_PORT=5003
+
+# Frontend external port (host machine)
+FRONTEND_HOST_PORT=83
 ```
 
-### Frontend Configuration
+### How Environment Variables Work
 
-The frontend's API endpoint is configured via nginx proxy. Update the nginx configuration if you need to change the backend address:
+1. **Build-time variables** (Frontend):
+   - `VITE_API_URL` and `VITE_APP_NAME` are passed as build args during `docker-compose build`
+   - These are compiled into the frontend JavaScript bundle
+   - The frontend cannot be reconfigured after building without rebuilding
 
-**File**: `Frontend/nginx.conf`
+2. **Runtime variables** (Backend):
+   - Backend environment variables can be overridden at runtime
+   - These are set when the container starts via `docker-compose up`
 
-```nginx
-location /api {
-    proxy_pass http://backend:5000;  # Change this if needed
-}
+### Overriding Environment Variables
+
+You can override variables without editing the `.env` file:
+
+```bash
+# Override at runtime
+VITE_API_URL=http://custom-api:5003/api docker-compose up
+
+# Override for build
+VITE_API_URL=http://custom-api:5003/api docker-compose build frontend
+```
+
+### Frontend API URL Configuration
+
+The frontend uses `VITE_API_URL` exclusively from the environment variable. This value is:
+
+- Set in the `.env` file
+- Passed to the Dockerfile during build via `docker-compose.yml`
+- Compiled into the application bundle at build time
+- **Cannot be changed after build** without rebuilding the container
+
+To change the API URL:
+
+1. Update `VITE_API_URL` in the `.env` file
+2. Rebuild the frontend container:
+
+```bash
+docker-compose build frontend
+docker-compose up -d frontend
+```
+
+### Environment Variable Validation
+
+The Docker build process includes validation:
+
+- If `VITE_API_URL` is not set, the build will use the default: `http://localhost:5002/api`
+- Ensure your `.env` file has the correct API URL before building
+
+### Troubleshooting Environment Issues
+
+#### Frontend can't connect to API
+
+1. Check the `VITE_API_URL` in your `.env` file
+2. Verify it matches the external access URL (usually `http://localhost:{BACKEND_HOST_PORT}/api`)
+3. Rebuild the frontend if you changed the variable:
+
+```bash
+docker-compose build --no-cache frontend
+docker-compose up -d
+```
+
+#### Variables not taking effect
+
+1. Ensure the `.env` file is in the project root (same directory as `docker-compose.yml`)
+2. For frontend changes, you must rebuild (build-time variables)
+3. For backend changes, restart is sufficient (runtime variables)
+
+```bash
+# After changing backend variables
+docker-compose restart backend
+
+# After changing frontend variables
+docker-compose build frontend
+docker-compose up -d frontend
 ```
 
 ## Troubleshooting
@@ -274,13 +377,79 @@ The Nginx configuration includes:
 
 3. **Environment Secrets**: Use Docker secrets or environment files for sensitive data
 
+### Database Configuration
+
+The application supports both SQLite and PostgreSQL databases:
+
+#### SQLite (Default)
+
+SQLite is used by default and is suitable for development and small deployments:
+
+- No additional setup required
+- Data stored in a file (`/app/data/RewardStar.db` in container)
+- Persists via Docker volume
+- Configuration via `DB_PATH` environment variable
+
+#### PostgreSQL (Production)
+
+For production deployments, PostgreSQL is recommended:
+
+1. **Set the DATABASE_URL environment variable** in your `.env` file:
+
+   ```env
+   DATABASE_URL=Host=postgres;Port=5432;Database=rewardstar;Username=postgres;Password=yourpassword
+   ```
+
+2. **Add PostgreSQL service to docker-compose.yml** (optional):
+
+   ```yaml
+   services:
+     postgres:
+       image: postgres:16-alpine
+       container_name: rewardstar-postgres
+       environment:
+         - POSTGRES_DB=rewardstar
+         - POSTGRES_USER=postgres
+         - POSTGRES_PASSWORD=yourpassword
+       volumes:
+         - postgres-data:/var/lib/postgresql/data
+       networks:
+         - rewardstar-network
+       restart: unless-stopped
+
+     backend:
+       depends_on:
+         - postgres
+       environment:
+         - DATABASE_URL=Host=postgres;Port=5432;Database=rewardstar;Username=postgres;Password=yourpassword
+
+   volumes:
+     postgres-data:
+       driver: local
+   ```
+
+3. **Update backend service** to add the DATABASE_URL environment variable
+
+4. **Run migrations** after switching to PostgreSQL:
+
+   ```bash
+   docker-compose exec backend dotnet ef database update
+   ```
+
+#### Switching Between Databases
+
+The application automatically detects which database to use:
+
+- If `DATABASE_URL` is set → Uses PostgreSQL
+- If `DATABASE_URL` is not set → Uses SQLite with `DB_PATH`
+
 ### Scaling
 
 For production deployments:
 
 - Use a load balancer (Nginx, HAProxy, AWS ELB)
 - Run multiple backend instances
-- Use a production database (PostgreSQL, SQL Server) instead of SQLite
+- **Use PostgreSQL for production** (configured via `DATABASE_URL`)
 - Implement proper logging and monitoring
 
 ## Docker Image Sizes

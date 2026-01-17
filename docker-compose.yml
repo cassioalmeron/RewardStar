@@ -13,6 +13,7 @@ services:
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
       - DB_PATH=${DB_PATH}
       - DATABASE_URL=${DATABASE_URL}
+      - Google__ClientId=${GOOGLE_CLIENT_ID}
     volumes:
       - backend-data:/app/data
     networks:
@@ -32,6 +33,7 @@ services:
       args:
         - VITE_API_URL=${VITE_API_URL}
         - VITE_APP_NAME=${VITE_APP_NAME}
+        - VITE_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
         - API_PORT=${API_PORT}
     container_name: rewardstar-frontend
     ports:

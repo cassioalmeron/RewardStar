@@ -41,6 +41,7 @@ public class RewardStartDbContext : DbContext
     public DatabaseProvider Provider { get; }
 
     public DbSet<Activity> Activities { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -69,5 +70,55 @@ public class RewardStartDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        // Configure DateTime handling for PostgreSQL
+        if (Provider == DatabaseProvider.PostgreSQL)
+        {
+            // Convert all DateTime properties to UTC
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetValueConverter(
+                            new Microsoft.EntityFrameworkCore.Storage.ValueConversion.ValueConverter<DateTime, DateTime>(
+                                v => v.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(v, DateTimeKind.Utc) : v.ToUniversalTime(),
+                                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+                            )
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    public override int SaveChanges()
+    {
+        ConvertDateTimesToUtc();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        ConvertDateTimesToUtc();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void ConvertDateTimesToUtc()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            foreach (var property in entry.Properties)
+            {
+                if (property.CurrentValue is DateTime dateTime)
+                {
+                    if (dateTime.Kind == DateTimeKind.Unspecified)
+                        property.CurrentValue = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+                    else if (dateTime.Kind == DateTimeKind.Local)
+                        property.CurrentValue = dateTime.ToUniversalTime();
+                }
+            }
+        }
     }
 }
