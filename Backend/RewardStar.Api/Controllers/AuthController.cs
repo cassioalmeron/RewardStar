@@ -100,8 +100,9 @@ public class AuthController : ControllerBase
             if (googlePayload == null)
                 return Unauthorized(new { message = "Invalid Google token" });
 
-            // Check if user exists
+            // Check if user exists (use AsTracking for updates)
             var existingUser = await _dbContext.Users
+                .AsTracking()
                 .FirstOrDefaultAsync(u => u.Email == googlePayload.Email || u.GoogleAuthId == googlePayload.Subject);
 
             User user;
@@ -169,8 +170,9 @@ public class AuthController : ControllerBase
             if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
                 return BadRequest(new { message = "Email and password are required" });
 
-            // Find user
+            // Find user (use AsTracking for updates)
             var user = await _dbContext.Users
+                .AsTracking()
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
@@ -226,8 +228,9 @@ public class AuthController : ControllerBase
             if (googlePayload == null)
                 return Unauthorized(new { message = "Invalid Google token" });
 
-            // Find user
+            // Find user (use AsTracking for updates)
             var user = await _dbContext.Users
+                .AsTracking()
                 .FirstOrDefaultAsync(u => u.GoogleAuthId == googlePayload.Subject);
 
             if (user == null)
