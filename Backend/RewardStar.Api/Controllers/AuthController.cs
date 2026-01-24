@@ -109,15 +109,20 @@ public class AuthController : ControllerBase
 
             if (existingUser != null)
             {
-                // User exists - update Google Auth ID if needed
+                // User exists - check if we need to link Google account
                 if (string.IsNullOrEmpty(existingUser.GoogleAuthId))
+                {
+                    // Link existing email/password account to Google
                     existingUser.GoogleAuthId = googlePayload.Subject;
+                    existingUser.Password = null; // Clear password - user will use Google auth from now on
+                    _logger.LogInformation("Linked existing account to Google: {Email}", existingUser.Email);
+                }
+                else
+                    _logger.LogInformation("Existing user logged in with Google: {Email}", existingUser.Email);
 
                 existingUser.LastLoginAt = DateTime.UtcNow;
                 await _dbContext.SaveChangesAsync();
                 user = existingUser;
-
-                _logger.LogInformation("Existing user logged in with Google: {Email}", user.Email);
             }
             else
             {
@@ -228,13 +233,24 @@ public class AuthController : ControllerBase
             if (googlePayload == null)
                 return Unauthorized(new { message = "Invalid Google token" });
 
-            // Find user (use AsTracking for updates)
+            // Find user by GoogleAuthId or Email (use AsTracking for updates)
             var user = await _dbContext.Users
                 .AsTracking()
-                .FirstOrDefaultAsync(u => u.GoogleAuthId == googlePayload.Subject);
+                .FirstOrDefaultAsync(u => u.GoogleAuthId == googlePayload.Subject || u.Email == googlePayload.Email);
 
             if (user == null)
                 return Unauthorized(new { message = "No account found with this Google account. Please register first." });
+
+            // Check if we need to link Google account to existing email/password account
+            if (string.IsNullOrEmpty(user.GoogleAuthId))
+            {
+                // Link existing email/password account to Google
+                user.GoogleAuthId = googlePayload.Subject;
+                user.Password = null; // Clear password - user will use Google auth from now on
+                _logger.LogInformation("Linked existing account to Google: {Email}", user.Email);
+            }
+            else
+                _logger.LogInformation("Existing user logged in with Google: {Email}", user.Email);
 
             // Check if account is active
             if (!user.Active)
@@ -246,8 +262,6 @@ public class AuthController : ControllerBase
 
             // Generate token
             var token = _jwtService.GenerateToken(user);
-
-            _logger.LogInformation("User logged in with Google: {Email}", user.Email);
 
             return Ok(new AuthResponseDto
             {
