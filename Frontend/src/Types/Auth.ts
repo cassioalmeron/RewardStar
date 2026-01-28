@@ -32,6 +32,7 @@ export interface User {
   createdAt: string;
   lastLoginAt?: string;
   isAdmin: boolean;
+  isGoogleAccount?: boolean;
 }
 
 // Helper function to check if user is admin

@@ -64,6 +64,7 @@ public record UserDto
     public DateTime CreatedAt { get; init; }
     public DateTime? LastLoginAt { get; init; }
     public bool IsAdmin { get; init; }
+    public bool IsGoogleAccount { get; init; }
 }
 
 // User Management DTOs

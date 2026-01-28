@@ -45,7 +45,8 @@ public class UsersController : ControllerBase
                 Active = u.Active,
                 CreatedAt = u.CreatedAt,
                 LastLoginAt = u.LastLoginAt,
-                IsAdmin = u.IsAdmin()
+                IsAdmin = u.IsAdmin(),
+                IsGoogleAccount = !string.IsNullOrEmpty(u.GoogleAuthId)
             }).ToList();
 
             return Ok(userDtos);
@@ -81,7 +82,8 @@ public class UsersController : ControllerBase
                 Active = user.Active,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
-                IsAdmin = user.IsAdmin()
+                IsAdmin = user.IsAdmin(),
+                IsGoogleAccount = !string.IsNullOrEmpty(user.GoogleAuthId)
             });
         }
         catch (Exception ex)
@@ -115,7 +117,8 @@ public class UsersController : ControllerBase
                 Active = user.Active,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
-                IsAdmin = user.IsAdmin()
+                IsAdmin = user.IsAdmin(),
+                IsGoogleAccount = !string.IsNullOrEmpty(user.GoogleAuthId)
             });
         }
         catch (Exception ex)
@@ -227,7 +230,8 @@ public class UsersController : ControllerBase
                 Active = user.Active,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
-                IsAdmin = user.IsAdmin()
+                IsAdmin = user.IsAdmin(),
+                IsGoogleAccount = !string.IsNullOrEmpty(user.GoogleAuthId)
             });
         }
         catch (Exception ex)

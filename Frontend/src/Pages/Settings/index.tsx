@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/AuthContext';
 import userService from '../../services/userService';
 import { UpdateUserRequest } from '../../Types/Auth';
+import GmailLinkedBadge from '../../Components/ui/GmailLinkedBadge';
 import './styles.css';
 
 const Settings: React.FC = () => {
@@ -110,48 +111,54 @@ const Settings: React.FC = () => {
           </div>
         </div>
 
-        <div className="form-section">
-          <h2>Change Password</h2>
-          <p className="section-description">Leave blank if you don't want to change your password</p>
-
-          <div className="form-group">
-            <label htmlFor="currentPassword">Current Password</label>
-            <input
-              id="currentPassword"
-              type="password"
-              value={formData.currentPassword}
-              onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
-              placeholder="Enter current password..."
-            />
+        {user?.isGoogleAccount ? (
+          <div className="form-section">
+            <GmailLinkedBadge showLabel={true} />
           </div>
+        ) : (
+          <div className="form-section">
+            <h2>Change Password</h2>
+            <p className="section-description">Leave blank if you don't want to change your password</p>
 
-          <div className="form-group">
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              id="newPassword"
-              type="password"
-              value={formData.newPassword}
-              onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
-              minLength={8}
-              placeholder="Enter new password..."
-            />
-            <small className="form-hint">
-              At least 8 characters with uppercase, lowercase, and number
-            </small>
-          </div>
+            <div className="form-group">
+              <label htmlFor="currentPassword">Current Password</label>
+              <input
+                id="currentPassword"
+                type="password"
+                value={formData.currentPassword}
+                onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
+                placeholder="Enter current password..."
+              />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm New Password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              minLength={8}
-              placeholder="Confirm new password..."
-            />
+            <div className="form-group">
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                id="newPassword"
+                type="password"
+                value={formData.newPassword}
+                onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
+                minLength={8}
+                placeholder="Enter new password..."
+              />
+              <small className="form-hint">
+                At least 8 characters with uppercase, lowercase, and number
+              </small>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm New Password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                minLength={8}
+                placeholder="Confirm new password..."
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="form-actions">
           <button type="submit" disabled={loading} className="btn-save">

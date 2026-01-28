@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import userService from '../../../services/userService';
 import { User, UpdateUserRequest } from '../../../Types/Auth';
 import { CloseIcon } from '../../../Components/icons';
+import GmailLinkedBadge from '../../../Components/ui/GmailLinkedBadge';
 import './styles.css';
 
 interface EditUserModalProps {
@@ -127,23 +128,27 @@ const EditUserModal: React.FC<EditUserModalProps> = ({ user, onClose, onSave }) 
             />
           </div>
 
-          <div className="form-group">
-            <label>New Password (leave blank to keep current)</label>
-            <input
-              type="password"
-              value={formData.newPassword}
-              onChange={handlePasswordChange}
-              placeholder="Enter new password..."
-              className={passwordError ? 'input-error' : ''}
-            />
-            {passwordError ? (
-              <small className="form-error">{passwordError}</small>
-            ) : (
-              <small className="form-hint">
-                Password must be at least 8 characters with uppercase, lowercase, and number
-              </small>
-            )}
-          </div>
+          {user.isGoogleAccount ? (
+            <GmailLinkedBadge showLabel={true} />
+          ) : (
+            <div className="form-group">
+              <label>New Password (leave blank to keep current)</label>
+              <input
+                type="password"
+                value={formData.newPassword}
+                onChange={handlePasswordChange}
+                placeholder="Enter new password..."
+                className={passwordError ? 'input-error' : ''}
+              />
+              {passwordError ? (
+                <small className="form-error">{passwordError}</small>
+              ) : (
+                <small className="form-hint">
+                  Password must be at least 8 characters with uppercase, lowercase, and number
+                </small>
+              )}
+            </div>
+          )}
 
           {!user.isAdmin && (
             <div className="form-group">
