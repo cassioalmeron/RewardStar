@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RewardStart.Core;
 using RewardStart.Core.Models;
 using System.Reflection;
-using System.Security.Claims;
+using RewardStar.Api.DTOs;
 using RewardStar.Api.Extensions;
 
 namespace RewardStar.Api.Controllers;
@@ -35,6 +35,14 @@ public class ActivitiesController : ControllerBase
         return userId;
     }
 
+    /// <summary>
+    /// Convert Activity entity to ActivityDto response
+    /// </summary>
+    private static ActivityDto MapToActivityDto(Activity activity)
+    {
+        return activity.CopyTo<ActivityDto>();
+    }
+
     private bool HasChanges(Activity newActivity, Activity existingActivity)
     {
         var properties = typeof(Activity).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -57,7 +65,7 @@ public class ActivitiesController : ControllerBase
     /// </summary>
     /// <returns>List of user's activities ordered by position</returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
+    public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivities()
     {
         try
         {
@@ -75,7 +83,7 @@ public class ActivitiesController : ControllerBase
                 .OrderBy(a => a.Position)
                 .ToListAsync();
 
-            return Ok(activities);
+            return Ok(activities.Select(MapToActivityDto));
         }
         catch (UnauthorizedAccessException ex)
         {
@@ -95,7 +103,7 @@ public class ActivitiesController : ControllerBase
     /// <param name="activities">List of activities to sync</param>
     /// <returns>Updated list of user's activities</returns>
     [HttpPost]
-    public async Task<ActionResult<IEnumerable<Activity>>> PostActivity(IEnumerable<Activity> activities)
+    public async Task<ActionResult<IEnumerable<ActivityDto>>> PostActivity(IEnumerable<Activity> activities)
     {
         try
         {
@@ -173,7 +181,7 @@ public class ActivitiesController : ControllerBase
 
             _logger.LogInformation("User {UserId} synced {Count} activities", userId, result.Count);
 
-            return Ok(result);
+            return Ok(result.Select(MapToActivityDto));
         }
         catch (UnauthorizedAccessException ex)
         {

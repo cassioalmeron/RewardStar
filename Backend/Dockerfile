@@ -8,6 +8,7 @@ COPY ["RewardStart.sln", "."]
 COPY ["RewardStart.Core/RewardStart.Core.csproj", "RewardStart.Core/"]
 COPY ["RewardStar.Api/RewardStar.Api.csproj", "RewardStar.Api/"]
 COPY ["RewardStar.Console/RewardStar.Console.csproj", "RewardStar.Console/"]
+COPY ["RewardStar.Tests/RewardStar.Tests.csproj", "RewardStar.Tests/"]
 
 # Restore dependencies
 RUN dotnet restore "RewardStart.sln"

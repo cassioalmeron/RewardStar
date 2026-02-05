@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewardStar.Api.DTOs;
+using RewardStar.Api.Extensions;
 using RewardStar.Api.Services;
 using RewardStart.Core;
+using RewardStart.Core.Extensions;
 using RewardStart.Core.Models;
 using RewardStart.Core.Utils;
 
@@ -30,10 +32,21 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// Convert User entity to AuthResponseDto response
+    /// </summary>
+    private static AuthResponseDto MapToAuthResponseDto(User user, string token)
+    {
+        var dto = user.CopyTo<AuthResponseDto>();
+        dto.UserId = user.Id;
+        dto.Token = token;
+        return dto;
+    }
+
+    /// <summary>
     /// Register new user with email and password
     /// </summary>
     [HttpPost("register")]
-    public async Task<ActionResult<AuthResponseDto>> Register([FromBody] RegisterRequestDto request)
+    public async Task<ActionResult<AuthResponseDto>> Register([FromBody] CreateUserDto request)
     {
         try
         {
@@ -50,18 +63,13 @@ public class AuthController : ControllerBase
             if (existingUser != null)
                 return Conflict(new { message = "Email already registered" });
 
-            // Hash password
-            var hashedPassword = PasswordHasher.HashPassword(request.Password);
+            // Create user using CopyTo extension
+            var user = request.CopyTo<User>();
 
-            // Create user
-            var user = new User
-            {
-                Name = request.Name,
-                Email = request.Email,
-                Password = hashedPassword,
-                Active = true,
-                CreatedAt = DateTime.UtcNow
-            };
+            // Hash password (requires special handling)
+            user.Password = PasswordHasher.HashPassword(request.Password);
+            user.Active = true;
+            user.CreatedAt = DateTime.UtcNow;
 
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
@@ -71,14 +79,7 @@ public class AuthController : ControllerBase
 
             _logger.LogInformation("User registered successfully: {Email}", user.Email);
 
-            return Ok(new AuthResponseDto
-            {
-                UserId = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Token = token,
-                Active = user.Active
-            });
+            return Ok(MapToAuthResponseDto(user, token));
         }
         catch (Exception ex)
         {
@@ -146,15 +147,7 @@ public class AuthController : ControllerBase
             // Generate token
             var token = _jwtService.GenerateToken(user);
 
-            return Ok(new AuthResponseDto
-            {
-                UserId = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Token = token,
-                Active = user.Active,
-                GoogleAuthId = user.GoogleAuthId
-            });
+            return Ok(MapToAuthResponseDto(user, token));
         }
         catch (Exception ex)
         {
@@ -204,14 +197,7 @@ public class AuthController : ControllerBase
 
             _logger.LogInformation("User logged in successfully: {Email}", user.Email);
 
-            return Ok(new AuthResponseDto
-            {
-                UserId = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Token = token,
-                Active = user.Active
-            });
+            return Ok(MapToAuthResponseDto(user, token));
         }
         catch (Exception ex)
         {
@@ -263,15 +249,7 @@ public class AuthController : ControllerBase
             // Generate token
             var token = _jwtService.GenerateToken(user);
 
-            return Ok(new AuthResponseDto
-            {
-                UserId = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Token = token,
-                Active = user.Active,
-                GoogleAuthId = user.GoogleAuthId
-            });
+            return Ok(MapToAuthResponseDto(user, token));
         }
         catch (Exception ex)
         {
