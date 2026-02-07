@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Level } from '../../Types/Level';
 import api from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
@@ -7,7 +7,7 @@ import { StarIcon } from '../../Components/icons';
 import './styles.css';
 
 interface GameItem {
-  id: string;
+  id: number;
   description: string;
   level: Level;
   monday: boolean;
@@ -17,67 +17,31 @@ interface GameItem {
   friday: boolean;
 }
 
+interface CompletionDays {
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+}
+
 interface TaskCompletion {
-  [key: string]: {
-    monday: boolean;
-    tuesday: boolean;
-    wednesday: boolean;
-    thursday: boolean;
-    friday: boolean;
-  };
+  [key: number]: CompletionDays;
 }
 
 type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday';
 
-const STORAGE_KEY = 'gameActivities';
-const COMPLETION_KEY = 'gameCompletions';
-const POINTS_KEY = 'gamePoints';
-const BALANCE_KEY = 'gameBalance';
+enum RewardType {
+  MMs = 1,
+  Bibs = 2,
+  Caramel = 3
+}
 
-const POINTS = {
-  [Level.Easy]: 1,
-  [Level.Medium]: 2,
-  [Level.Hard]: 3
+const REWARD_COSTS: Record<RewardType, number> = {
+  [RewardType.MMs]: 2,
+  [RewardType.Bibs]: 4,
+  [RewardType.Caramel]: 6
 };
-
-const REWARDS = {
-  mms: 2,
-  bibs: 4,
-  caramel: 6
-};
-
-const initialGames: GameItem[] = [
-  {
-    id: '1',
-    description: 'Match pairs of cards',
-    level: Level.Easy,
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false
-  },
-  {
-    id: '2',
-    description: 'Find hidden words',
-    level: Level.Medium,
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false
-  },
-  {
-    id: '3',
-    description: 'Solve math problems',
-    level: Level.Hard,
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false
-  }
-];
 
 interface GameCellProps {
   game: GameItem;
@@ -120,46 +84,41 @@ const GameCell: React.FC<GameCellProps> = ({ game, day, index, onToggle, isCompl
 };
 
 const Game: React.FC = () => {
-  const [games, setGames] = useState<GameItem[]>(() => {
-    const savedGames = localStorage.getItem(STORAGE_KEY);
-    return savedGames ? JSON.parse(savedGames) : initialGames;
-  });
-
-  const [completions, setCompletions] = useState<TaskCompletion>(() => {
-    const savedCompletions = localStorage.getItem(COMPLETION_KEY);
-    return savedCompletions ? JSON.parse(savedCompletions) : {};
-  });
-
-  const [totalPoints, setTotalPoints] = useState<number>(() => {
-    const savedPoints = localStorage.getItem(POINTS_KEY);
-    return savedPoints ? JSON.parse(savedPoints) : 0;
-  });
-
-  const [balance, setBalance] = useState<number>(() => {
-    const savedBalance = localStorage.getItem(BALANCE_KEY);
-    return savedBalance ? JSON.parse(savedBalance) : 0;
-  });
-
-  const [loading, setLoading] = useState(false);
+  const [games, setGames] = useState<GameItem[]>([]);
+  const [completions, setCompletions] = useState<TaskCompletion>({});
+  const [totalPoints, setTotalPoints] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
-  }, [games]);
+  const loadGameData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [activitiesRes, stateRes] = await Promise.all([
+        api.get('Game'),
+        api.get('Game/state')
+      ]);
+
+      setGames(activitiesRes.data);
+
+      const state = stateRes.data;
+      setCompletions(state.completions || {});
+      setTotalPoints(state.totalPoints || 0);
+      setBalance(state.balance || 0);
+    } catch (err) {
+      setError('Failed to load game data. Please try again.');
+      toast.error('Failed to load game data.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem(COMPLETION_KEY, JSON.stringify(completions));
-  }, [completions]);
+    loadGameData();
+  }, [loadGameData]);
 
-  useEffect(() => {
-    localStorage.setItem(POINTS_KEY, JSON.stringify(totalPoints));
-  }, [totalPoints]);
-
-  useEffect(() => {
-    localStorage.setItem(BALANCE_KEY, JSON.stringify(balance));
-  }, [balance]);
-
-  const handleDayToggle = (index: number, day: DayOfWeek) => {
+  const handleDayToggle = async (index: number, day: DayOfWeek) => {
     const game = games[index];
     const gameCompletions = completions[game.id] || {
       monday: false,
@@ -170,26 +129,52 @@ const Game: React.FC = () => {
     };
 
     const isCurrentlyCompleted = gameCompletions[day];
-    const pointsForThisGame = POINTS[game.level];
 
-    // Update points and balance based on toggle action
-    if (isCurrentlyCompleted) {
-      // Uncompleting - subtract points and balance
-      setTotalPoints(prev => prev - pointsForThisGame);
-      setBalance(prev => prev - pointsForThisGame);
-    } else {
-      // Completing - add points and balance
-      setTotalPoints(prev => prev + pointsForThisGame);
-      setBalance(prev => prev + pointsForThisGame);
-    }
+    // Optimistic UI update
+    const prevCompletions = { ...completions };
+    const prevTotalPoints = totalPoints;
+    const prevBalance = balance;
 
     setCompletions(prev => ({
       ...prev,
       [game.id]: {
         ...gameCompletions,
-        [day]: !gameCompletions[day]
+        [day]: !isCurrentlyCompleted
       }
     }));
+
+    // Optimistic points calculation (matches backend POINTS_PER_LEVEL)
+    const pointsMap: Record<Level, number> = {
+      [Level.Easy]: 1,
+      [Level.Medium]: 2,
+      [Level.Hard]: 3
+    };
+    const points = pointsMap[game.level] || 0;
+
+    if (isCurrentlyCompleted) {
+      setTotalPoints(prev => prev - points);
+      setBalance(prev => prev - points);
+    } else {
+      setTotalPoints(prev => prev + points);
+      setBalance(prev => prev + points);
+    }
+
+    try {
+      const response = await api.post('Game/toggle', {
+        activityId: game.id,
+        day: day
+      });
+
+      // Sync with server response
+      setTotalPoints(response.data.totalPoints);
+      setBalance(response.data.balance);
+    } catch (err) {
+      // Revert optimistic update
+      setCompletions(prevCompletions);
+      setTotalPoints(prevTotalPoints);
+      setBalance(prevBalance);
+      toast.error('Failed to save completion. Please try again.');
+    }
   };
 
   const handleReset = async () => {
@@ -199,7 +184,7 @@ const Game: React.FC = () => {
           <p>Are you sure you want to reset all games?</p>
           <p>This action cannot be undone.</p>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
-            <button 
+            <button
               onClick={() => {
                 toast.dismiss();
                 resolve(false);
@@ -208,7 +193,7 @@ const Game: React.FC = () => {
             >
               Cancel
             </button>
-            <button 
+            <button
               onClick={() => {
                 toast.dismiss();
                 resolve(true);
@@ -234,35 +219,12 @@ const Game: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get('Game');
-        setGames(response.data);
-        localStorage.removeItem(COMPLETION_KEY);
-        localStorage.removeItem(POINTS_KEY);
-        localStorage.removeItem(BALANCE_KEY);
-        setCompletions({});
-        setTotalPoints(0);
-        setBalance(0);
+        await api.post('Game/reset');
+        await loadGameData();
         toast.success('Games reset successfully!');
       } catch (err) {
-        const errorMessage = 'Error loading games from API. Using local data.';
-        setError(errorMessage);
-        console.error('Error loading games:', err);
-        const resetGames = games.map(game => ({
-          ...game,
-          monday: false,
-          tuesday: false,
-          wednesday: false,
-          thursday: false,
-          friday: false
-        }));
-        setGames(resetGames);
-        localStorage.removeItem(COMPLETION_KEY);
-        localStorage.removeItem(POINTS_KEY);
-        localStorage.removeItem(BALANCE_KEY);
-        setCompletions({});
-        setTotalPoints(0);
-        setBalance(0);
-        toast.error(errorMessage);
+        setError('Error resetting game. Please try again.');
+        toast.error('Error resetting game. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -292,17 +254,54 @@ const Game: React.FC = () => {
     });
   };
 
-  const isTaskCompleted = (gameId: string, day: DayOfWeek): boolean => {
+  const isTaskCompleted = (gameId: number, day: DayOfWeek): boolean => {
     const gameCompletions = completions[gameId];
     return gameCompletions ? gameCompletions[day] : false;
   };
 
-  const handleClaimReward = (rewardType: string, cost: number) => {
-    if (balance >= cost) {
-      setBalance(prev => prev - cost);
-      toast.success(`Successfully claimed ${rewardType}! (-${cost} points)`);
+  const handleClaimReward = async (rewardType: RewardType, rewardName: string, cost: number) => {
+    if (balance < cost) {
+      toast.error(`Insufficient balance. You need ${cost} points but have ${balance}.`);
+      return;
+    }
+
+    // Optimistic UI update
+    const prevBalance = balance;
+    setBalance(prev => prev - cost);
+
+    try {
+      await api.post('Game/claim', {
+        rewardType: rewardType
+      });
+      toast.success(`Successfully claimed ${rewardName}! (-${cost} points)`);
+    } catch (err) {
+      // Revert optimistic update
+      setBalance(prevBalance);
+      toast.error(`Failed to claim ${rewardName}. Please try again.`);
     }
   };
+
+  if (loading && games.length === 0) {
+    return (
+      <div className="game-container">
+        <h1>Week Game</h1>
+        <div className="game-content">
+          <p>Loading game data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!loading && games.length === 0) {
+    return (
+      <div className="game-container">
+        <h1>Week Game</h1>
+        <div className="game-content">
+          <p>No activities configured yet. Please set up your activities in the Activity page first.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="game-container">
@@ -423,25 +422,25 @@ const Game: React.FC = () => {
           {/* Reward Claim Buttons */}
           <div className="reward-buttons">
             <button
-              onClick={() => handleClaimReward('M&Ms', REWARDS.mms)}
+              onClick={() => handleClaimReward(RewardType.MMs, 'M&Ms', REWARD_COSTS[RewardType.MMs])}
               className="reward-button reward-button-mms"
-              disabled={balance < REWARDS.mms}
+              disabled={balance < REWARD_COSTS[RewardType.MMs]}
             >
               Claim M&Ms<br />
               <span className="reward-cost">(2 points)</span>
             </button>
             <button
-              onClick={() => handleClaimReward('Bibs', REWARDS.bibs)}
+              onClick={() => handleClaimReward(RewardType.Bibs, 'Bibs', REWARD_COSTS[RewardType.Bibs])}
               className="reward-button reward-button-bibs"
-              disabled={balance < REWARDS.bibs}
+              disabled={balance < REWARD_COSTS[RewardType.Bibs]}
             >
               Claim Bibs<br />
               <span className="reward-cost">(4 points)</span>
             </button>
             <button
-              onClick={() => handleClaimReward('Caramel', REWARDS.caramel)}
+              onClick={() => handleClaimReward(RewardType.Caramel, 'Caramel', REWARD_COSTS[RewardType.Caramel])}
               className="reward-button reward-button-caramel"
-              disabled={balance < REWARDS.caramel}
+              disabled={balance < REWARD_COSTS[RewardType.Caramel]}
             >
               Claim Caramel<br />
               <span className="reward-cost">(6 points)</span>
@@ -453,4 +452,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default Game; 
+export default Game;

@@ -10,6 +10,9 @@ public class User : EntityBase
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLoginAt { get; set; }
 
-    // Navigation Property
+    // Navigation Properties
     public ICollection<Activity> Activities { get; set; } = new List<Activity>();
+    public ICollection<GameCompletion> GameCompletions { get; set; } = new List<GameCompletion>();
+    public ICollection<RewardClaim> RewardClaims { get; set; } = new List<RewardClaim>();
+    public GameState? GameState { get; set; }
 }

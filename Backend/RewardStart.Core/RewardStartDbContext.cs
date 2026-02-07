@@ -42,6 +42,9 @@ public class RewardStartDbContext : DbContext
 
     public DbSet<Activity> Activities { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<GameCompletion> GameCompletions { get; set; }
+    public DbSet<GameState> GameStates { get; set; }
+    public DbSet<RewardClaim> RewardClaims { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

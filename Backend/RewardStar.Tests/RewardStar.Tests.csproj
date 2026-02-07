@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="MSTest" Version="4.0.1" />
     <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
