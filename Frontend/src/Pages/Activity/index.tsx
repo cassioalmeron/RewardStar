@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import api from '../../services/api';
 import { Level } from '../../Types/Level';
 import { toast, ToastContainer } from 'react-toastify';
@@ -107,13 +108,27 @@ const Activity: React.FC = () => {
     );
   };
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const items = Array.from(activities);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    const updatedItems = items.map((item, index) => ({
+      ...item,
+      position: index + 1
+    }));
+
+    setActivities(updatedItems);
+  };
+
   const handleSaveActivities = async () => {
     setSaving(true);
     setError(null);
 
     try {
-      const sortedActivities = [...activities].sort((a, b) => a.position - b.position);
-      const activitiesToSave = sortedActivities.map(activity => ({
+      const activitiesToSave = activities.map(activity => ({
         ...activity,
         id: activity.id < 0 ? 0 : activity.id
       }));
@@ -177,114 +192,128 @@ const Activity: React.FC = () => {
             {saving ? 'Saving...' : 'Save'}
           </button>
         </div>
-        <table className="activity-table">
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Description</th>
-              <th>Level</th>
-              <th>Monday</th>
-              <th>Tuesday</th>
-              <th>Wednesday</th>
-              <th>Thursday</th>
-              <th>Friday</th>
-              <th>Active</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...activities]
-              .sort((a, b) => a.position - b.position)
-              .map((activity, index) => (
-              <tr key={activity.id} className="activity-row">
-                <td>
-                  <input
-                    type="number"
-                    value={activity.position}
-                    onChange={(e) => handleInputChange(index, 'position', parseInt(e.target.value) || 0)}
-                    className="activity-input position-input"
-                    min="1"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={activity.description}
-                    onChange={(e) => handleInputChange(index, 'description', e.target.value)}
-                    className="activity-input"
-                  />
-                </td>
-                <td>
-                  <select
-                    value={activity.level}
-                    onChange={(e) => handleInputChange(index, 'level', Number(e.target.value) as Level)}
-                    className={`activity-select level-${activity.level}`}
-                  >
-                    <option value={Level.Easy}>{getLevelName(Level.Easy)}</option>
-                    <option value={Level.Medium}>{getLevelName(Level.Medium)}</option>
-                    <option value={Level.Hard}>{getLevelName(Level.Hard)}</option>
-                  </select>
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.monday}
-                    onChange={(e) => handleInputChange(index, 'monday', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.tuesday}
-                    onChange={(e) => handleInputChange(index, 'tuesday', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.wednesday}
-                    onChange={(e) => handleInputChange(index, 'wednesday', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.thursday}
-                    onChange={(e) => handleInputChange(index, 'thursday', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.friday}
-                    onChange={(e) => handleInputChange(index, 'friday', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={activity.active}
-                    onChange={(e) => handleInputChange(index, 'active', e.target.checked)}
-                    className="activity-checkbox"
-                  />
-                </td>
-                <td>
-                  <button 
-                    onClick={() => handleDeleteActivity(index)}
-                    className="delete-activity-btn"
-                  >
-                    Delete
-                  </button>
-                </td>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <table className="activity-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Position</th>
+                <th>Description</th>
+                <th>Level</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Active</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <Droppable droppableId="activities">
+              {(provided) => (
+                <tbody
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {activities.map((activity, index) => (
+                    <Draggable key={activity.id} draggableId={String(activity.id)} index={index}>
+                      {(provided, snapshot) => (
+                        <tr
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className={`activity-row ${snapshot.isDragging ? 'dragging' : ''}`}
+                        >
+                          <td>
+                            <span className="drag-handle" {...provided.dragHandleProps}>&#9776;</span>
+                          </td>
+                          <td>
+                            <span className="activity-position">{index + 1}</span>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              value={activity.description}
+                              onChange={(e) => handleInputChange(index, 'description', e.target.value)}
+                              className="activity-input"
+                            />
+                          </td>
+                          <td>
+                            <select
+                              value={activity.level}
+                              onChange={(e) => handleInputChange(index, 'level', Number(e.target.value) as Level)}
+                              className={`activity-select level-${activity.level}`}
+                            >
+                              <option value={Level.Easy}>{getLevelName(Level.Easy)}</option>
+                              <option value={Level.Medium}>{getLevelName(Level.Medium)}</option>
+                              <option value={Level.Hard}>{getLevelName(Level.Hard)}</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.monday}
+                              onChange={(e) => handleInputChange(index, 'monday', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.tuesday}
+                              onChange={(e) => handleInputChange(index, 'tuesday', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.wednesday}
+                              onChange={(e) => handleInputChange(index, 'wednesday', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.thursday}
+                              onChange={(e) => handleInputChange(index, 'thursday', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.friday}
+                              onChange={(e) => handleInputChange(index, 'friday', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              checked={activity.active}
+                              onChange={(e) => handleInputChange(index, 'active', e.target.checked)}
+                              className="activity-checkbox"
+                            />
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleDeleteActivity(index)}
+                              className="delete-activity-btn"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </tbody>
+              )}
+            </Droppable>
+          </table>
+        </DragDropContext>
       </div>
     </div>
   );

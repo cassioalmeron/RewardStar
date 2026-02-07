@@ -75,16 +75,24 @@
   box-sizing: border-box;
 }
 
-.position-input {
-  width: 70px;
-  text-align: center;
-  -moz-appearance: textfield;
+.drag-handle {
+  cursor: grab;
+  font-size: 1.2rem;
+  color: #999;
+  user-select: none;
+  padding: 4px 8px;
 }
 
-.position-input::-webkit-outer-spin-button,
-.position-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.drag-handle:hover {
+  color: #333;
+}
+
+.activity-row.dragging {
+  background-color: #e3f2fd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: table;
+  table-layout: fixed;
+  width: 100%;
 }
 
 .activity-select {
