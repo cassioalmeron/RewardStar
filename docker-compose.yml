@@ -14,6 +14,7 @@ services:
       - DB_PATH=${DB_PATH}
       - DATABASE_URL=${DATABASE_URL}
       - Google__ClientId=${GOOGLE_CLIENT_ID}
+      - Jwt__ExpiryMinutes=${JWT_EXPIRY_MINUTES}
     volumes:
       - backend-data:/app/data
     networks:
