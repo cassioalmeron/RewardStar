@@ -1,6 +1,6 @@
-﻿using RewardStar.Api.DTOs;
-using RewardStart.Core;
-using RewardStart.Core.Models;
+using RewardStar.Api.DTOs;
+using RewardStar.Core;
+using RewardStar.Core.Models;
 using System.Reflection;
 
 namespace RewardStar.Api.Extensions;

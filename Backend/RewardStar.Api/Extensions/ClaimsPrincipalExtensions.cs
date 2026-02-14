@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using RewardStart.Core.Constants;
+using RewardStar.Core.Constants;
 
 namespace RewardStar.Api.Extensions;
 

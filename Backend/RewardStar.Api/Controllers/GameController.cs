@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RewardStart.Core;
-using RewardStart.Core.Models;
+using RewardStar.Core;
+using RewardStar.Core.Models;
 using RewardStar.Api.DTOs;
 using RewardStar.Api.Extensions;
 
@@ -13,7 +13,7 @@ namespace RewardStar.Api.Controllers;
 [Authorize]
 public class GameController : ControllerBase
 {
-    private readonly RewardStartDbContext _context;
+    private readonly RewardStarDbContext _context;
     private readonly ILogger<GameController> _logger;
 
     private static readonly Dictionary<Level, int> POINTS_PER_LEVEL = new()
@@ -30,7 +30,7 @@ public class GameController : ControllerBase
         { RewardType.Caramel, 6 }
     };
 
-    public GameController(RewardStartDbContext context, ILogger<GameController> logger)
+    public GameController(RewardStarDbContext context, ILogger<GameController> logger)
     {
         _context = context;
         _logger = logger;

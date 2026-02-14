@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RewardStart.Core\RewardStart.Core.csproj" />
+    <ProjectReference Include="..\RewardStar.Core\RewardStar.Core.csproj" />
   </ItemGroup>
 
 </Project>

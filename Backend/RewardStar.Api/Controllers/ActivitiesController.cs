@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RewardStart.Core;
-using RewardStart.Core.Models;
+using RewardStar.Core;
+using RewardStar.Core.Models;
 using System.Reflection;
 using RewardStar.Api.DTOs;
 using RewardStar.Api.Extensions;
@@ -14,10 +14,10 @@ namespace RewardStar.Api.Controllers;
 [Authorize]
 public class ActivitiesController : ControllerBase
 {
-    private readonly RewardStartDbContext _context;
+    private readonly RewardStarDbContext _context;
     private readonly ILogger<ActivitiesController> _logger;
 
-    public ActivitiesController(RewardStartDbContext context, ILogger<ActivitiesController> logger)
+    public ActivitiesController(RewardStarDbContext context, ILogger<ActivitiesController> logger)
     {
         _context = context;
         _logger = logger;

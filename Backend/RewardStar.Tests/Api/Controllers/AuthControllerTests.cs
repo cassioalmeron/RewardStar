@@ -1,6 +1,6 @@
 using RewardStar.Api.Controllers;
 using RewardStar.Api.DTOs;
-using RewardStart.Core.Models;
+using RewardStar.Core.Models;
 using System.Reflection;
 
 namespace RewardStar.Tests.Api.Controllers;

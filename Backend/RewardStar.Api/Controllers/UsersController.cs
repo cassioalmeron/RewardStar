@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RewardStar.Api.DTOs;
-using RewardStart.Core;
+using RewardStar.Core;
 using System.Security.Claims;
 using RewardStar.Api.Extensions;
-using RewardStart.Core.Utils;
-using RewardStart.Core.Extensions;
+using RewardStar.Core.Utils;
+using RewardStar.Core.Extensions;
 
 namespace RewardStar.Api.Controllers;
 
@@ -15,10 +15,10 @@ namespace RewardStar.Api.Controllers;
 [Authorize]
 public class UsersController : ControllerBase
 {
-    private readonly RewardStartDbContext _dbContext;
+    private readonly RewardStarDbContext _dbContext;
     private readonly ILogger<UsersController> _logger;
 
-    public UsersController(RewardStartDbContext dbContext, ILogger<UsersController> logger)
+    public UsersController(RewardStarDbContext dbContext, ILogger<UsersController> logger)
     {
         _dbContext = dbContext;
         _logger = logger;
@@ -27,7 +27,7 @@ public class UsersController : ControllerBase
     /// <summary>
     /// Convert User entity to UserDto response using CopyTo extension
     /// </summary>
-    private static UserDto MapToUserDto(RewardStart.Core.Models.User user)
+    private static UserDto MapToUserDto(RewardStar.Core.Models.User user)
     {
         var dto = user.CopyTo<UserDto>();
 

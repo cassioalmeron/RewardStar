@@ -1,4 +1,4 @@
-using RewardStart.Core;
+using RewardStar.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<RewardStartDbContext>();
+builder.Services.AddDbContext<RewardStarDbContext>();
 
 // JWT Configuration
 var jwtSecretKey = builder.Configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
@@ -68,7 +68,7 @@ using (var scope = app.Services.CreateScope())
 {
     try
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<RewardStartDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<RewardStarDbContext>();
         Console.WriteLine("Running database migrations...");
         dbContext.Database.Migrate();
         Console.WriteLine("Database migrations completed successfully.");

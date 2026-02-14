@@ -1,6 +1,6 @@
-﻿using RewardStart.Core.Models;
+using RewardStar.Core.Models;
 
-namespace RewardStart.Core.Extensions;
+namespace RewardStar.Core.Extensions;
 
 public static class DtoBaseExtension
 {

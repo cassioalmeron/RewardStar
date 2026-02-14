@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using RewardStart.Core;
+using RewardStar.Core;
 
 namespace RewardStar.Api.Controllers;
 
@@ -7,9 +7,9 @@ namespace RewardStar.Api.Controllers;
 [ApiController]
 public class HealthCheckController : ControllerBase
 {
-    private readonly RewardStartDbContext _context;
+    private readonly RewardStarDbContext _context;
 
-    public HealthCheckController(RewardStartDbContext context)
+    public HealthCheckController(RewardStarDbContext context)
     {
         _context = context;
     }

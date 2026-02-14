@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../RewardStar.Api/RewardStar.Api.csproj" />
-    <ProjectReference Include="../RewardStart.Core/RewardStart.Core.csproj" />
+    <ProjectReference Include="../RewardStar.Core/RewardStar.Core.csproj" />
   </ItemGroup>
 
 </Project>

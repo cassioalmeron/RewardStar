@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using RewardStart.Core;
-using RewardStart.Core.Models;
+using RewardStar.Core;
+using RewardStar.Core.Models;
 using Testcontainers.PostgreSql;
 
 namespace RewardStar.Tests.Core.Integration;
@@ -48,20 +48,20 @@ public class PostgreSqlIntegrationTests
         context.Database.Migrate();
     }
 
-    private static RewardStartDbContext CreatePostgreSqlContext()
+    private static RewardStarDbContext CreatePostgreSqlContext()
     {
         Environment.SetEnvironmentVariable("DATABASE_URL", _connectionString);
         Environment.SetEnvironmentVariable("DB_PATH", null);
-        return new RewardStartDbContext();
+        return new RewardStarDbContext();
     }
 
-    private static void DetachAll(RewardStartDbContext context)
+    private static void DetachAll(RewardStarDbContext context)
     {
         foreach (var entry in context.ChangeTracker.Entries().ToList())
             entry.State = EntityState.Detached;
     }
 
-    private static User SeedTestUser(RewardStartDbContext context)
+    private static User SeedTestUser(RewardStarDbContext context)
     {
         var user = new User
         {
@@ -76,7 +76,7 @@ public class PostgreSqlIntegrationTests
         return user;
     }
 
-    private static Activity SeedActivity(RewardStartDbContext context, int userId)
+    private static Activity SeedActivity(RewardStarDbContext context, int userId)
     {
         var activity = new Activity
         {

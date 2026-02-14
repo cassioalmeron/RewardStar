@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using RewardStar.Api.DTOs;
 using RewardStar.Api.Extensions;
 using RewardStar.Api.Services;
-using RewardStart.Core;
-using RewardStart.Core.Extensions;
-using RewardStart.Core.Models;
-using RewardStart.Core.Utils;
+using RewardStar.Core;
+using RewardStar.Core.Extensions;
+using RewardStar.Core.Models;
+using RewardStar.Core.Utils;
 
 namespace RewardStar.Api.Controllers;
 
@@ -14,13 +14,13 @@ namespace RewardStar.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly RewardStartDbContext _dbContext;
+    private readonly RewardStarDbContext _dbContext;
     private readonly JwtService _jwtService;
     private readonly GoogleAuthService _googleAuthService;
     private readonly ILogger<AuthController> _logger;
 
     public AuthController(
-        RewardStartDbContext dbContext,
+        RewardStarDbContext dbContext,
         JwtService jwtService,
         GoogleAuthService googleAuthService,
         ILogger<AuthController> logger)

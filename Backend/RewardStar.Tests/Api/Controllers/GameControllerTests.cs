@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using RewardStar.Api.Controllers;
 using RewardStar.Api.DTOs;
-using RewardStart.Core;
-using RewardStart.Core.Models;
+using RewardStar.Core;
+using RewardStar.Core.Models;
 using System.Security.Claims;
 
 namespace RewardStar.Tests.Api.Controllers;
@@ -17,14 +17,14 @@ public class GameControllerTests
 {
     private const int TEST_USER_ID = 2; // Non-admin user (admin is 1)
 
-    private static RewardStartDbContext CreateTestDbContext()
+    private static RewardStarDbContext CreateTestDbContext()
     {
         // Use a unique temp file per test to ensure isolation
-        var dbPath = Path.Combine(Path.GetTempPath(), $"RewardStarTest_{Guid.NewGuid()}.db");
+        var dbPath = Path.Combine(Path.GetTempPath(), $"RewardStarest_{Guid.NewGuid()}.db");
         Environment.SetEnvironmentVariable("DB_PATH", dbPath);
         Environment.SetEnvironmentVariable("DATABASE_URL", null);
 
-        var context = new RewardStartDbContext();
+        var context = new RewardStarDbContext();
         context.Database.EnsureCreated();
 
         // Seed the test user to satisfy FK constraints
@@ -46,13 +46,13 @@ public class GameControllerTests
     /// Detach all tracked entities to prevent tracking conflicts.
     /// Required because Add/Update operations track entities even with NoTracking query behavior.
     /// </summary>
-    private static void DetachAll(RewardStartDbContext context)
+    private static void DetachAll(RewardStarDbContext context)
     {
         foreach (var entry in context.ChangeTracker.Entries().ToList())
             entry.State = EntityState.Detached;
     }
 
-    private static GameController CreateController(RewardStartDbContext context)
+    private static GameController CreateController(RewardStarDbContext context)
     {
         var logger = new Mock<ILogger<GameController>>();
         var controller = new GameController(context, logger.Object);
@@ -73,7 +73,7 @@ public class GameControllerTests
         return controller;
     }
 
-    private static async Task<Activity> SeedActivityAsync(RewardStartDbContext context, Level level, int userId = TEST_USER_ID)
+    private static async Task<Activity> SeedActivityAsync(RewardStarDbContext context, Level level, int userId = TEST_USER_ID)
     {
         var activity = new Activity
         {
@@ -95,7 +95,7 @@ public class GameControllerTests
         return activity;
     }
 
-    private static async Task<GameState> SeedGameStateAsync(RewardStartDbContext context, int totalPoints, int balance, int userId = TEST_USER_ID)
+    private static async Task<GameState> SeedGameStateAsync(RewardStarDbContext context, int totalPoints, int balance, int userId = TEST_USER_ID)
     {
         var gameState = new GameState
         {
@@ -110,7 +110,7 @@ public class GameControllerTests
         return gameState;
     }
 
-    private static async Task<GameCompletion> SeedCompletionAsync(RewardStartDbContext context, int activityId, GameDayOfWeek day, int userId = TEST_USER_ID)
+    private static async Task<GameCompletion> SeedCompletionAsync(RewardStarDbContext context, int activityId, GameDayOfWeek day, int userId = TEST_USER_ID)
     {
         var completion = new GameCompletion
         {

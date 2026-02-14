@@ -4,20 +4,20 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy solution and project files
-COPY ["RewardStart.sln", "."]
-COPY ["RewardStart.Core/RewardStart.Core.csproj", "RewardStart.Core/"]
+COPY ["RewardStar.sln", "."]
+COPY ["RewardStar.Core/RewardStar.Core.csproj", "RewardStar.Core/"]
 COPY ["RewardStar.Api/RewardStar.Api.csproj", "RewardStar.Api/"]
 COPY ["RewardStar.Console/RewardStar.Console.csproj", "RewardStar.Console/"]
 COPY ["RewardStar.Tests/RewardStar.Tests.csproj", "RewardStar.Tests/"]
 
 # Restore dependencies
-RUN dotnet restore "RewardStart.sln"
+RUN dotnet restore "RewardStar.sln"
 
 # Copy source code
 COPY . .
 
 # Build the API project
-RUN dotnet build "RewardStart.sln" -c Release -o /app/build
+RUN dotnet build "RewardStar.sln" -c Release -o /app/build
 
 # Publish the API
 FROM build AS publish
