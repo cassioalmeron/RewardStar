@@ -4,6 +4,8 @@ import api from '../../services/api';
 import { Level } from '../../Types/Level';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GlassSelect from '../../Components/ui/GlassSelect';
+import ConfirmDialog from '../../Components/ui/ConfirmDialog';
 import './styles.css';
 
 interface ActivityItem {
@@ -24,6 +26,7 @@ const Activity: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -71,41 +74,19 @@ const Activity: React.FC = () => {
   };
 
   const handleDeleteActivity = (index: number) => {
-    toast.info(
-      <div>
-        <p>Are you sure you want to delete this activity?</p>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
-          <button 
-            onClick={() => {
-              const newActivities = activities.filter((_, i) => i !== index);
-              const updatedActivities = newActivities.map((activity, i) => ({
-                ...activity,
-                position: i + 1
-              }));
-              setActivities(updatedActivities);
-              toast.dismiss();
-              toast.success('Activity deleted successfully!');
-            }}
-            style={{ padding: '4px 8px', background: '#dc3545', color: 'white' }}
-          >
-            Delete
-          </button>
-          <button 
-            onClick={() => toast.dismiss()}
-            style={{ padding: '4px 8px', background: '#ccc' }}
-          >
-            Cancel
-          </button>
-        </div>
-      </div>,
-      {
-        position: "top-center",
-        autoClose: false,
-        closeOnClick: false,
-        draggable: false,
-        closeButton: false
-      }
-    );
+    setDeleteIndex(index);
+  };
+
+  const confirmDelete = () => {
+    if (deleteIndex === null) return;
+    const newActivities = activities.filter((_, i) => i !== deleteIndex);
+    const updatedActivities = newActivities.map((activity, i) => ({
+      ...activity,
+      position: i + 1
+    }));
+    setActivities(updatedActivities);
+    setDeleteIndex(null);
+    toast.success('Activity deleted successfully!');
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -178,6 +159,13 @@ const Activity: React.FC = () => {
   return (
     <div className="activity-container">
       <ToastContainer />
+      <ConfirmDialog
+        isOpen={deleteIndex !== null}
+        message="Are you sure you want to delete this activity?"
+        confirmLabel="Delete"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteIndex(null)}
+      />
       <h1>Activity Schedule</h1>
       <div className="activity-content">
         <div className="button-container">
@@ -238,7 +226,7 @@ const Activity: React.FC = () => {
                             />
                           </td>
                           <td>
-                            <select
+                            <GlassSelect
                               value={activity.level}
                               onChange={(e) => handleInputChange(index, 'level', Number(e.target.value) as Level)}
                               className={`activity-select level-${activity.level}`}
@@ -246,7 +234,7 @@ const Activity: React.FC = () => {
                               <option value={Level.Easy}>{getLevelName(Level.Easy)}</option>
                               <option value={Level.Medium}>{getLevelName(Level.Medium)}</option>
                               <option value={Level.Hard}>{getLevelName(Level.Hard)}</option>
-                            </select>
+                            </GlassSelect>
                           </td>
                           <td>
                             <input

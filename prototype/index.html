@@ -11,77 +11,198 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center p-5">
-    <div class="bg-white rounded-2xl shadow-2xl p-10 max-w-4xl w-full">
-        <h1 class="text-5xl text-gray-800 text-center mb-3">Reward Star</h1>
-        <p class="text-center text-gray-600 mb-10 text-lg">
-            HTML/CSS Prototypes - Reverse Engineered from React App
-        </p>
-
-        <div class="bg-gray-100 border-l-4 border-blue-500 p-4 mb-8 rounded">
-            <p class="text-gray-700 leading-relaxed mb-2">
-                <strong>About these prototypes:</strong>
-            </p>
-            <p class="text-gray-700 leading-relaxed mb-2">
-                These are static HTML/CSS prototypes reverse-engineered from the Reward Star React application.
-                They showcase the UI design and layout using <strong>Tailwind CSS via CDN</strong> with shared styles
-                centralized in <code class="bg-gray-200 px-1 rounded">styles.css</code>.
-            </p>
-            <p class="text-gray-700 leading-relaxed">
-                Click on any card below to view the corresponding prototype page.
-            </p>
-        </div>
-
-        <!-- Prototype Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-            <!-- Home Card -->
-            <a href="home.html"
-               class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl p-8 text-center text-white transition-smooth hover:-translate-y-2 hover:shadow-2xl block">
-                <div class="text-5xl mb-4">🏠</div>
-                <h2 class="text-2xl mb-2 font-semibold">Home</h2>
-                <p class="opacity-90">Welcome page with app introduction</p>
-            </a>
-
-            <!-- Game Card -->
-            <a href="game.html"
-               class="bg-gradient-to-br from-green-500 to-green-700 rounded-xl p-8 text-center text-white transition-smooth hover:-translate-y-2 hover:shadow-2xl block">
-                <div class="text-5xl mb-4">🎮</div>
-                <h2 class="text-2xl mb-2 font-semibold">Game</h2>
-                <p class="opacity-90">Interactive game management with daily tasks</p>
-            </a>
-
-            <!-- Activity Card -->
-            <a href="activity.html"
-               class="bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl p-8 text-center text-white transition-smooth hover:-translate-y-2 hover:shadow-2xl block">
-                <div class="text-5xl mb-4">📋</div>
-                <h2 class="text-2xl mb-2 font-semibold">Activity</h2>
-                <p class="opacity-90">Schedule and manage weekly activities</p>
-            </a>
-
-            <!-- Settings Card -->
-            <a href="settings.html"
-               class="bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-8 text-center text-white transition-smooth hover:-translate-y-2 hover:shadow-2xl block">
-                <div class="text-5xl mb-4">⚙️</div>
-                <h2 class="text-2xl mb-2 font-semibold">Settings</h2>
-                <p class="opacity-90">Configure application settings</p>
-            </a>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center border-t-2 border-gray-200 pt-5 mt-10">
-            <p class="font-bold text-gray-800 mb-4">Original Tech Stack:</p>
-            <div class="flex justify-center gap-3 flex-wrap mb-5">
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">React 19</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">TypeScript</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Vite</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">React Router</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Axios</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">React Toastify</span>
+<body class="grid-bg">
+    <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="max-w-6xl w-full">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="text-8xl mb-6 rotate-star inline-block">⭐</div>
+                <h1 class="text-6xl md:text-7xl neon-lime mb-4" style="font-family: var(--font-display);">
+                    REWARD STAR
+                </h1>
+                <p class="text-xl md:text-2xl text-white" style="font-family: var(--font-body); font-weight: 600; letter-spacing: 0.05em;">
+                    HTML/CSS PROTOTYPES — NEO-ARCADE DESIGN
+                </p>
             </div>
-            <p class="text-gray-600 text-sm">
-                Prototypes created using <strong>Tailwind CSS via CDN</strong> • No style repetition
-            </p>
+
+            <!-- Info Box -->
+            <div class="card-brutal p-6 mb-12" style="border-color: var(--color-cyan);">
+                <h2 class="text-display text-lg text-cyan-400 mb-3">
+                    ABOUT THESE PROTOTYPES
+                </h2>
+                <p class="text-white/80 mb-3" style="font-family: var(--font-body);">
+                    Static HTML/CSS prototypes reverse-engineered from the Reward Star React application. Features a distinctive <strong class="text-lime-400">Neo-Arcade Brutalism</strong> design system with bold typography, high-contrast colors, and game-inspired visuals.
+                </p>
+                <p class="text-white/80" style="font-family: var(--font-body);">
+                    <strong class="text-magenta-400">Tech:</strong> Tailwind CSS via CDN + Custom CSS Design System
+                </p>
+            </div>
+
+            <!-- Prototype Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <!-- Authentication Pages -->
+                <a href="login.html" class="card-brutal p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">🔐</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-lime-400 mb-1">LOGIN</h2>
+                            <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime); font-size: 0.625rem;">AUTH</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        User authentication with email/password and Google OAuth
+                    </p>
+                </a>
+
+                <a href="register.html" class="card-brutal p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">📝</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-lime-400 mb-1">REGISTER</h2>
+                            <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime); font-size: 0.625rem;">AUTH</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        New user registration with validation
+                    </p>
+                </a>
+
+                <!-- Main App Pages -->
+                <a href="home.html" class="card-brutal-magenta p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">🏠</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-magenta-400 mb-1">HOME</h2>
+                            <span class="badge-brutal text-magenta-400" style="border-color: var(--color-magenta); font-size: 0.625rem;">APP</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Welcome dashboard with app introduction
+                    </p>
+                </a>
+
+                <a href="game.html" class="card-brutal-magenta p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">🎮</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-magenta-400 mb-1">GAME</h2>
+                            <span class="badge-brutal text-magenta-400" style="border-color: var(--color-magenta); font-size: 0.625rem;">APP</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Interactive week game with points & rewards
+                    </p>
+                </a>
+
+                <a href="activity.html" class="card-brutal-magenta p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">📋</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-magenta-400 mb-1">ACTIVITY</h2>
+                            <span class="badge-brutal text-magenta-400" style="border-color: var(--color-magenta); font-size: 0.625rem;">APP</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Schedule and manage weekly activities
+                    </p>
+                </a>
+
+                <a href="profile.html" class="card-brutal-magenta p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">👤</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-magenta-400 mb-1">PROFILE</h2>
+                            <span class="badge-brutal text-magenta-400" style="border-color: var(--color-magenta); font-size: 0.625rem;">APP</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        User profile management and password change
+                    </p>
+                </a>
+
+                <!-- Settings & Admin -->
+                <a href="settings.html" class="card-brutal-cyan p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">⚙️</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-cyan-400 mb-1">SETTINGS</h2>
+                            <span class="badge-brutal text-cyan-400" style="border-color: var(--color-cyan); font-size: 0.625rem;">CONFIG</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Application configuration and preferences
+                    </p>
+                </a>
+
+                <a href="admin-users.html" class="card-brutal-cyan p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">👥</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-cyan-400 mb-1">USERS</h2>
+                            <span class="badge-brutal text-cyan-400" style="border-color: var(--color-cyan); font-size: 0.625rem;">ADMIN</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Admin panel for user management
+                    </p>
+                </a>
+
+                <a href="admin-user-details.html" class="card-brutal-cyan p-8 block group hover:scale-[1.02] transition-all">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="text-5xl">📊</div>
+                        <div>
+                            <h2 class="text-display text-2xl text-cyan-400 mb-1">USER DETAILS</h2>
+                            <span class="badge-brutal text-cyan-400" style="border-color: var(--color-cyan); font-size: 0.625rem;">ADMIN</span>
+                        </div>
+                    </div>
+                    <p class="text-white/70" style="font-family: var(--font-body); font-size: 0.875rem;">
+                        Detailed user information and management
+                    </p>
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="border-t-4 border-white/10 pt-8">
+                <div class="text-center mb-6">
+                    <p class="text-display text-lg mb-4" style="color: var(--color-lime);">ORIGINAL TECH STACK</p>
+                    <div class="flex justify-center gap-3 flex-wrap">
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">React 19</span>
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">TypeScript</span>
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">Vite</span>
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">React Router</span>
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">Axios</span>
+                        <span class="badge-brutal text-lime-400" style="border-color: var(--color-lime);">Toastify</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-mono text-white/50 text-sm">
+                        Design System: Neo-Arcade Brutalism • Fonts: Archivo Black, Chakra Petch, Azeret Mono
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <style>
+        /* Custom animations for this page */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-brutal, .card-brutal-magenta, .card-brutal-cyan {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .card-brutal:nth-child(2) { animation-delay: 0.5s; }
+        .card-brutal:nth-child(3) { animation-delay: 1s; }
+        .card-brutal-magenta:nth-child(1) { animation-delay: 0.2s; }
+        .card-brutal-magenta:nth-child(2) { animation-delay: 0.7s; }
+        .card-brutal-magenta:nth-child(3) { animation-delay: 1.2s; }
+        .card-brutal-magenta:nth-child(4) { animation-delay: 1.5s; }
+        .card-brutal-cyan:nth-child(1) { animation-delay: 0.3s; }
+        .card-brutal-cyan:nth-child(2) { animation-delay: 0.8s; }
+        .card-brutal-cyan:nth-child(3) { animation-delay: 1.3s; }
+    </style>
 </body>
 </html>

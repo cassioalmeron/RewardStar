@@ -4,6 +4,7 @@ import api from '../../services/api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StarIcon } from '../../Components/icons';
+import ConfirmDialog from '../../Components/ui/ConfirmDialog';
 import './styles.css';
 
 interface GameItem {
@@ -90,6 +91,7 @@ const Game: React.FC = () => {
   const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const loadGameData = useCallback(async () => {
     setLoading(true);
@@ -177,57 +179,23 @@ const Game: React.FC = () => {
     }
   };
 
-  const handleReset = async () => {
-    const confirmReset = () => new Promise((resolve) => {
-      toast.info(
-        <div>
-          <p>Are you sure you want to reset all games?</p>
-          <p>This action cannot be undone.</p>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
-            <button
-              onClick={() => {
-                toast.dismiss();
-                resolve(false);
-              }}
-              style={{ padding: '4px 8px', background: '#ccc' }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                toast.dismiss();
-                resolve(true);
-              }}
-              style={{ padding: '4px 8px', background: '#dc3545', color: 'white' }}
-            >
-              Reset
-            </button>
-          </div>
-        </div>,
-        {
-          position: "top-center",
-          autoClose: false,
-          closeOnClick: false,
-          draggable: false,
-          closeButton: false
-        }
-      );
-    });
+  const handleReset = () => {
+    setShowResetConfirm(true);
+  };
 
-    const confirmed = await confirmReset();
-    if (confirmed) {
-      setLoading(true);
-      setError(null);
-      try {
-        await api.post('Game/reset');
-        await loadGameData();
-        toast.success('Games reset successfully!');
-      } catch (err) {
-        setError('Error resetting game. Please try again.');
-        toast.error('Error resetting game. Please try again.');
-      } finally {
-        setLoading(false);
-      }
+  const confirmReset = async () => {
+    setShowResetConfirm(false);
+    setLoading(true);
+    setError(null);
+    try {
+      await api.post('Game/reset');
+      await loadGameData();
+      toast.success('Games reset successfully!');
+    } catch (err) {
+      setError('Error resetting game. Please try again.');
+      toast.error('Error resetting game. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -306,6 +274,13 @@ const Game: React.FC = () => {
   return (
     <div className="game-container">
       <ToastContainer />
+      <ConfirmDialog
+        isOpen={showResetConfirm}
+        message="Are you sure you want to reset all games? This action cannot be undone."
+        confirmLabel="Reset"
+        onConfirm={confirmReset}
+        onCancel={() => setShowResetConfirm(false)}
+      />
       <h1>Week Game</h1>
       <div className="game-content">
         <div className="button-container">

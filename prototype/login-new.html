@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Reward Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grid-bg">
+    <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="max-w-md w-full">
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <div class="text-7xl mb-4 rotate-star inline-block">⭐</div>
+                <h1 class="neon-lime text-5xl mb-2" style="font-family: var(--font-display);">REWARD STAR</h1>
+                <p class="text-white/70" style="font-family: var(--font-body); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.875rem;">
+                    ACCESS PORTAL
+                </p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="card-brutal p-8 mb-6">
+                <form id="loginForm">
+                    <!-- Email -->
+                    <div class="mb-6">
+                        <label class="block text-lime-400 text-sm mb-2 uppercase" style="font-family: var(--font-body); font-weight: 600; letter-spacing: 0.05em;">
+                            Email Address
+                        </label>
+                        <input type="email" id="email" class="input-brutal w-full" placeholder="your.email@example.com" required>
+                        <p id="email-error" class="mt-2 text-sm hidden" style="color: var(--color-danger);"></p>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-6">
+                        <label class="block text-lime-400 text-sm mb-2 uppercase" style="font-family: var(--font-body); font-weight: 600; letter-spacing: 0.05em;">
+                            Password
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="password" class="input-brutal w-full pr-12" placeholder="••••••••" required>
+                            <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-lime-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p id="password-error" class="mt-2 text-sm hidden" style="color: var(--color-danger);"></p>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="formError" class="mb-4 p-4 hidden" style="background: var(--color-void); border: 2px solid var(--color-danger); color: var(--color-danger); font-family: var(--font-body); font-weight: 600;"></div>
+                    <div id="formSuccess" class="mb-4 p-4 hidden" style="background: var(--color-void); border: 2px solid var(--color-success); color: var(--color-success); font-family: var(--font-body); font-weight: 600;"></div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-brutal btn-filled-lime w-full mb-4">
+                        <span id="loginBtnText">SIGN IN</span>
+                        <span id="loginBtnLoading" class="hidden">SIGNING IN...</span>
+                    </button>
+
+                    <!-- Forgot Password -->
+                    <div class="text-center mb-6">
+                        <a href="#" class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm" style="font-family: var(--font-mono);">
+                            → Forgot Password?
+                        </a>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t-2" style="border-color: var(--color-concrete);"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="px-3 text-white/50 text-sm uppercase" style="font-family: var(--font-mono); background: var(--color-charcoal);">OR</span>
+                        </div>
+                    </div>
+
+                    <!-- Google Sign-In -->
+                    <button type="button" id="googleSignIn" class="btn-brutal btn-cyan w-full flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span>GOOGLE SIGN-IN</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center">
+                <p class="text-white/70 mb-3" style="font-family: var(--font-body); font-size: 0.875rem;">
+                    New to Reward Star?
+                </p>
+                <a href="register.html" class="btn-brutal btn-magenta inline-block">
+                    CREATE ACCOUNT
+                </a>
+            </div>
+
+            <!-- Back Link -->
+            <div class="mt-8 text-center">
+                <a href="index.html" class="text-white/50 hover:text-lime-400 transition-colors text-sm" style="font-family: var(--font-mono);">
+                    ← BACK TO INDEX
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const formError = document.getElementById('formError');
+        const formSuccess = document.getElementById('formSuccess');
+        const loginBtnText = document.getElementById('loginBtnText');
+        const loginBtnLoading = document.getElementById('loginBtnLoading');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formError.classList.add('hidden');
+            formSuccess.classList.add('hidden');
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email || !password) {
+                formError.textContent = 'Please fill in all fields';
+                formError.classList.remove('hidden');
+                return;
+            }
+
+            loginBtnText.classList.add('hidden');
+            loginBtnLoading.classList.remove('hidden');
+
+            setTimeout(() => {
+                formSuccess.textContent = 'Login successful! Redirecting...';
+                formSuccess.classList.remove('hidden');
+                setTimeout(() => window.location.href = 'home.html', 1500);
+            }, 1000);
+        });
+
+        document.getElementById('googleSignIn').addEventListener('click', () => {
+            formSuccess.textContent = 'Redirecting to Google sign-in...';
+            formSuccess.classList.remove('hidden');
+            setTimeout(() => window.location.href = 'home.html', 1500);
+        });
+    </script>
+</body>
+</html>

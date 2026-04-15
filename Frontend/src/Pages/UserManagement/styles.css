@@ -1,37 +1,36 @@
-/* User management page container */
 .user-management-container {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* User management header */
 .user-management-header {
   margin-bottom: 2rem;
 }
 
 .user-management-header h1 {
   font-size: 2rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
 }
 
 .user-management-header p {
-  color: #6c757d;
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
-/* Loading state */
 .user-management-loading {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 400px;
-  font-size: 1.25rem;
-  color: #6c757d;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
 }
 
-/* Error state */
 .user-management-error {
   display: flex;
   flex-direction: column;
@@ -42,38 +41,46 @@
 }
 
 .user-management-error p {
-  color: #dc3545;
+  color: var(--color-danger);
   font-size: 1rem;
 }
 
 .btn-retry {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  background: #007bff;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 8px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-primary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition-fast);
 }
 
 .btn-retry:hover {
-  background: #0056b3;
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow:
+    0 0 0 2px rgba(56, 189, 248, 0.2),
+    0 4px 16px rgba(56, 189, 248, 0.15);
+  transform: translateY(-1px);
 }
 
-/* Empty state */
 .user-management-empty {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 200px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: var(--border-glass-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass-panel);
 }
 
 .user-management-empty p {
-  color: #6c757d;
+  color: var(--text-muted);
   font-size: 1rem;
 }

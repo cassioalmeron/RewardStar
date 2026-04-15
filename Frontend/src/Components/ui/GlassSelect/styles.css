@@ -1,0 +1,72 @@
+.glass-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.glass-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--glass-bg-light);
+  border: var(--border-glass-light);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  user-select: none;
+}
+
+.glass-select-trigger:hover {
+  background: var(--glass-bg-medium);
+}
+
+
+.glass-select-arrow {
+  flex-shrink: 0;
+  margin-left: 8px;
+  transition: transform 0.15s ease;
+}
+
+.glass-select-arrow.open {
+  transform: rotate(180deg);
+}
+
+.glass-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: rgba(8, 18, 42, 0.95);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  border: var(--border-glass-medium);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glass-panel);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.glass-select-option {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.glass-select-option:hover {
+  background: var(--glass-bg-medium);
+  color: var(--text-primary);
+}
+
+.glass-select-option.selected {
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}

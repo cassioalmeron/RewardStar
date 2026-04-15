@@ -1,15 +1,25 @@
 .sidebar {
   width: 240px;
-  background-color: #2196F3;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  background: var(--glass-bg-light);
+  backdrop-filter: var(--blur-lg);
+  -webkit-backdrop-filter: var(--blur-lg);
+  border-right: var(--border-glass-light);
+  box-shadow:
+    4px 0 24px rgba(0, 0, 0, 0.3),
+    1px 0 0 rgba(255, 255, 255, 0.04) inset;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .sidebar-header {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: var(--border-bottom-divider);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -21,12 +31,13 @@
 }
 
 .sidebar-title {
-  color: white;
+  color: var(--text-primary);
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 700;
   white-space: nowrap;
   opacity: 1;
   transition: opacity 0.2s ease;
+  letter-spacing: -0.02em;
 }
 
 .sidebar-nav {
@@ -42,21 +53,29 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: white;
+  color: var(--text-secondary);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 500;
-  padding: 0.75rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  border: 1px solid transparent;
+  letter-spacing: 0.01em;
 }
 
 .sidebar-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg-medium);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-link.active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.1);
 }
 
 .sidebar-icon {
@@ -74,7 +93,7 @@
 .sidebar-footer {
   margin-top: auto;
   padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: var(--border-bottom-divider);
 }
 
 .sidebar-user {
@@ -83,19 +102,21 @@
   gap: 12px;
   margin-bottom: 12px;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  background: var(--glass-bg-subtle);
+  border-radius: var(--radius-md);
+  border: var(--border-glass-subtle);
 }
 
 .user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color-primary-bg);
+  border: 1px solid rgba(56, 189, 248, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-primary);
   font-weight: 600;
   font-size: 14px;
   flex-shrink: 0;
@@ -110,7 +131,7 @@
 }
 
 .user-name {
-  color: white;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 14px;
   white-space: nowrap;
@@ -119,7 +140,7 @@
 }
 
 .user-email {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
   font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
@@ -133,18 +154,21 @@
   justify-content: center;
   gap: 8px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 6px;
-  color: white;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: var(--transition-fast);
+  font-family: var(--font-primary);
 }
 
 .logout-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: #fca5a5;
 }
 
 .logout-btn .icon {

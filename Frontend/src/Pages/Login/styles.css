@@ -3,69 +3,88 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }
 
 .login-container {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 450px;
+  max-width: 420px;
+  padding: 40px 36px;
+  background: rgba(8, 18, 40, 0.72);
+  backdrop-filter: var(--blur-xl);
+  -webkit-backdrop-filter: var(--blur-xl);
+  border: var(--border-glass-medium);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glass-modal);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  will-change: transform;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .login-header h1 {
-  font-size: 28px;
-  color: #333;
+  font-size: 26px;
+  color: var(--text-primary);
   margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
 }
 
 .login-header p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .login-form {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
-  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 
 .form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 9px 13px;
+  background: var(--glass-bg-light);
+  border: var(--border-glass-light);
+  border-radius: var(--radius-md);
   font-size: 14px;
-  transition: border-color 0.3s;
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  transition: var(--transition-fast);
+  width: 100%;
   box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: var(--glass-bg-medium);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: var(--shadow-glass-input-focus);
 }
 
 .form-group input:disabled {
-  background-color: #f5f5f5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -87,33 +106,45 @@
   cursor: pointer;
   font-size: 18px;
   padding: 5px;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+}
+
+.toggle-password:hover {
+  color: var(--text-secondary);
 }
 
 .btn-primary {
   width: 100%;
-  padding: 12px;
-  background: #667eea;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: 10px;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-md);
+  font-size: 15px;
   font-weight: 600;
+  font-family: var(--font-primary);
   cursor: pointer;
-  transition: background 0.3s;
+  transition: var(--transition-fast);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #5568d3;
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow:
+    0 0 0 2px rgba(56, 189, 248, 0.2),
+    0 4px 16px rgba(56, 189, 248, 0.15);
+  transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-  background: #ccc;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
 .divider {
   text-align: center;
-  margin: 20px 0;
+  margin: 18px 0;
   position: relative;
 }
 
@@ -124,35 +155,37 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #ddd;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .divider span {
-  background: white;
-  padding: 0 15px;
+  background: rgba(8, 18, 40, 0.72);
+  padding: 0 12px;
   position: relative;
-  color: #999;
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .login-footer {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .login-footer p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .login-footer a {
-  color: #667eea;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
 }
 
 .login-footer a:hover {
+  color: var(--text-link-hover);
   text-decoration: underline;
 }
 
@@ -165,5 +198,5 @@
 
 .loading-spinner {
   font-size: 18px;
-  color: #667eea;
+  color: var(--color-primary);
 }

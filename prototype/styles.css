@@ -1,123 +1,361 @@
 /* ============================================
-   SHARED STYLES FOR REWARD STAR PROTOTYPES
+   NEO-ARCADE BRUTALISM DESIGN SYSTEM
+   Reward Star - Distinctive Prototype Styles
    ============================================ */
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Archivo+Black&family=Azeret+Mono:wght@400;600&display=swap');
 
 /* Theme Variables */
 :root {
-    /* Colors from original app */
-    --color-primary: #2196F3;
-    --color-primary-dark: #1976D2;
-    --color-success: #4CAF50;
-    --color-success-dark: #45a049;
-    --color-danger: #f44336;
-    --color-danger-dark: #d32f2f;
-    --color-warning: #FF9800;
+    /* Neo-Arcade Color Palette */
+    --color-void: #0a0a0a;
+    --color-charcoal: #1a1a1a;
+    --color-concrete: #2a2a2a;
+    --color-steel: #3a3a3a;
 
-    /* Level colors */
-    --level-easy: #5cc073;
-    --level-medium: #00c1ff;
-    --level-hard: #fab95e;
+    --color-lime: #CDFF00;
+    --color-lime-glow: #E4FF66;
+    --color-magenta: #FF006E;
+    --color-magenta-dark: #CC0058;
+    --color-cyan: #00F0FF;
+    --color-cyan-dark: #00BCD4;
+    --color-amber: #FFB800;
 
-    /* Game level colors */
-    --game-easy: #66bb6a;
-    --game-medium: #42a5f5;
-    --game-hard: #ffa726;
+    --color-success: #00FF88;
+    --color-danger: #FF3366;
+    --color-warning: #FFB800;
 
-    /* Backgrounds */
-    --bg-light: #f5f5f5;
-    --bg-dark: #1a1a1a;
-    --bg-card-dark: #2a2a2a;
-    --bg-cell-dark: #3a3a3a;
+    /* Typography */
+    --font-display: 'Archivo Black', sans-serif;
+    --font-body: 'Chakra Petch', sans-serif;
+    --font-mono: 'Azeret Mono', monospace;
+
+    /* Spacing Grid (8px base) */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+
+    /* Borders */
+    --border-width: 3px;
+    --border-radius: 0;
+
+    /* Shadows */
+    --shadow-brutal: 8px 8px 0 rgba(0, 0, 0, 0.8);
+    --shadow-brutal-hover: 12px 12px 0 rgba(0, 0, 0, 0.8);
+    --shadow-glow-lime: 0 0 20px var(--color-lime);
+    --shadow-glow-magenta: 0 0 20px var(--color-magenta);
+    --shadow-glow-cyan: 0 0 20px var(--color-cyan);
 }
 
-/* Custom Component Styles */
-.level-badge-easy {
-    background-color: var(--level-easy);
-    color: black;
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.level-badge-medium {
-    background-color: var(--level-medium);
+body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    background: var(--color-void);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Animated Grid Background */
+.grid-bg {
+    background-image:
+        linear-gradient(rgba(205, 255, 0, 0.03) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(205, 255, 0, 0.03) 2px, transparent 2px);
+    background-size: 40px 40px;
+    animation: gridScroll 20s linear infinite;
+}
+
+@keyframes gridScroll {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 40px 40px, 40px 40px; }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.text-display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+}
+
+.text-mono {
+    font-family: var(--font-mono);
+}
+
+/* Glitch Text Effect */
+.glitch {
+    position: relative;
+    display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--color-magenta);
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--color-cyan);
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(random(100) + px, 9999px, random(100) + px, 0); }
+    100% { clip: rect(random(100) + px, 9999px, random(100) + px, 0); }
+}
+
+/* Neon Glow Text */
+.neon-lime {
+    color: var(--color-lime);
+    text-shadow:
+        0 0 5px var(--color-lime),
+        0 0 10px var(--color-lime),
+        0 0 20px var(--color-lime);
+}
+
+.neon-magenta {
+    color: var(--color-magenta);
+    text-shadow:
+        0 0 5px var(--color-magenta),
+        0 0 10px var(--color-magenta),
+        0 0 20px var(--color-magenta);
+}
+
+.neon-cyan {
+    color: var(--color-cyan);
+    text-shadow:
+        0 0 5px var(--color-cyan),
+        0 0 10px var(--color-cyan),
+        0 0 20px var(--color-cyan);
+}
+
+/* Brutal Cards */
+.card-brutal {
+    background: var(--color-charcoal);
+    border: var(--border-width) solid var(--color-lime);
+    box-shadow: var(--shadow-brutal);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-brutal:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow-brutal-hover);
+}
+
+.card-brutal-magenta {
+    background: var(--color-charcoal);
+    border: var(--border-width) solid var(--color-magenta);
+    box-shadow: var(--shadow-brutal);
+}
+
+.card-brutal-cyan {
+    background: var(--color-charcoal);
+    border: var(--border-width) solid var(--color-cyan);
+    box-shadow: var(--shadow-brutal);
+}
+
+/* Buttons */
+.btn-brutal {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.5rem;
+    border: var(--border-width) solid;
+    background: var(--color-charcoal);
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.btn-brutal:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.8);
+}
+
+.btn-brutal:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8);
+}
+
+.btn-lime {
+    border-color: var(--color-lime);
+    color: var(--color-lime);
+}
+
+.btn-lime:hover {
+    background: var(--color-lime);
+    color: var(--color-void);
+}
+
+.btn-magenta {
+    border-color: var(--color-magenta);
+    color: var(--color-magenta);
+}
+
+.btn-magenta:hover {
+    background: var(--color-magenta);
     color: white;
 }
 
-.level-badge-hard {
-    background-color: var(--level-hard);
+.btn-cyan {
+    border-color: var(--color-cyan);
+    color: var(--color-cyan);
+}
+
+.btn-cyan:hover {
+    background: var(--color-cyan);
+    color: var(--color-void);
+}
+
+.btn-filled-lime {
+    background: var(--color-lime);
+    border-color: var(--color-lime);
+    color: var(--color-void);
+}
+
+.btn-filled-magenta {
+    background: var(--color-magenta);
+    border-color: var(--color-magenta);
     color: white;
 }
 
-.game-level-easy {
-    background-color: var(--game-easy);
-    color: black;
-}
-
-.game-level-medium {
-    background-color: var(--game-medium);
+/* Input Fields */
+.input-brutal {
+    font-family: var(--font-body);
+    padding: 0.875rem 1rem;
+    background: var(--color-steel);
+    border: var(--border-width) solid var(--color-concrete);
     color: white;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    outline: none;
 }
 
-.game-level-hard {
-    background-color: var(--game-hard);
-    color: white;
+.input-brutal:focus {
+    border-color: var(--color-lime);
+    background: var(--color-charcoal);
+    box-shadow: 0 0 0 3px rgba(205, 255, 0, 0.1);
 }
 
-/* Input styling for dark backgrounds */
-.input-dark {
-    background-color: var(--bg-cell-dark);
-    color: white;
+.input-brutal::placeholder {
+    color: rgba(255, 255, 255, 0.4);
 }
 
-/* Smooth transitions */
-.transition-smooth {
-    transition: all 0.3s ease;
+.input-brutal.error {
+    border-color: var(--color-danger);
 }
 
-/* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* Sidebar Navigation Styles */
+/* Sidebar Navigation */
 .sidebar {
-    width: 240px;
+    width: 280px;
+    background: var(--color-charcoal);
+    border-right: var(--border-width) solid var(--color-lime);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
     transition: width 0.3s ease;
 }
 
-.sidebar-icon {
-    width: 24px;
-    height: 24px;
+.sidebar-header {
+    padding: var(--space-lg);
+    border-bottom: var(--border-width) solid var(--color-concrete);
+    background: var(--color-void);
+}
+
+.sidebar-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-lime);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.sidebar-nav {
+    padding: var(--space-md);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-xs);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    border-left: var(--border-width) solid transparent;
+}
+
+.nav-item:hover {
+    color: white;
+    background: rgba(205, 255, 0, 0.05);
+    border-left-color: var(--color-lime);
+    transform: translateX(4px);
+}
+
+.nav-item.active {
+    color: var(--color-lime);
+    background: rgba(205, 255, 0, 0.1);
+    border-left-color: var(--color-lime);
+}
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
 }
 
-.sidebar-text {
-    opacity: 1;
-    transition: opacity 0.2s ease;
-}
-
-/* Mobile: Icon-only sidebar */
+/* Mobile Responsive Sidebar */
 @media (max-width: 768px) {
     .sidebar {
         width: 70px;
     }
 
     .sidebar-text {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
+        display: none;
+    }
+
+    .sidebar-logo-text {
+        display: none;
     }
 }
 
@@ -130,4 +368,208 @@
 .main-content {
     flex: 1;
     overflow-x: hidden;
+    background: var(--color-void);
+}
+
+/* Pixel Art Decorations */
+.pixel-corner {
+    width: 20px;
+    height: 20px;
+    background: var(--color-lime);
+    position: absolute;
+}
+
+.pixel-corner-tl { top: -10px; left: -10px; }
+.pixel-corner-tr { top: -10px; right: -10px; }
+.pixel-corner-bl { bottom: -10px; left: -10px; }
+.pixel-corner-br { bottom: -10px; right: -10px; }
+
+/* Scanline Effect */
+.scanlines {
+    position: relative;
+    overflow: hidden;
+}
+
+.scanlines::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.1) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Diagonal Stripe Pattern */
+.stripe-pattern {
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(205, 255, 0, 0.05) 10px,
+        rgba(205, 255, 0, 0.05) 20px
+    );
+}
+
+/* Level Badges - Game Specific */
+.level-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border: 2px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+
+.level-easy {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    color: var(--color-void);
+}
+
+.level-medium {
+    background: var(--color-cyan);
+    border-color: var(--color-cyan);
+    color: var(--color-void);
+}
+
+.level-hard {
+    background: var(--color-amber);
+    border-color: var(--color-amber);
+    color: var(--color-void);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-charcoal);
+    border-left: var(--border-width) solid var(--color-concrete);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-lime);
+    border: 2px solid var(--color-charcoal);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-lime-glow);
+}
+
+/* Utility Classes */
+.transition-smooth {
+    transition: all 0.3s ease;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/* Pulsing Animation */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+    }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Star Icon Animation */
+@keyframes rotate-star {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rotate-star {
+    animation: rotate-star 20s linear infinite;
+}
+
+/* Brutal Table Styles */
+.table-brutal {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+}
+
+.table-brutal th {
+    background: var(--color-void);
+    border: var(--border-width) solid var(--color-lime);
+    padding: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.table-brutal td {
+    background: var(--color-concrete);
+    border: 2px solid var(--color-steel);
+    padding: var(--space-sm);
+    text-align: center;
+}
+
+/* Notification/Toast */
+.notification-brutal {
+    font-family: var(--font-body);
+    font-weight: 600;
+    padding: var(--space-md) var(--space-lg);
+    border: var(--border-width) solid;
+    box-shadow: var(--shadow-brutal);
+    position: fixed;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    z-index: 9999;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.notification-success {
+    background: var(--color-void);
+    border-color: var(--color-success);
+    color: var(--color-success);
+}
+
+.notification-error {
+    background: var(--color-void);
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+/* Badge/Pill */
+.badge-brutal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.625rem;
+    border: 2px solid;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }

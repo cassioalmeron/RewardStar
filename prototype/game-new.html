@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week Game - Reward Star</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">⭐</span>
+                    <span class="sidebar-logo sidebar-logo-text">REWARD STAR</span>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <a href="home-new.html" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="sidebar-text">Home</span>
+                </a>
+
+                <a href="game-new.html" class="nav-item active">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path>
+                    </svg>
+                    <span class="sidebar-text">Game</span>
+                </a>
+
+                <a href="activity.html" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    <span class="sidebar-text">Activity</span>
+                </a>
+
+                <a href="profile.html" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span class="sidebar-text">Profile</span>
+                </a>
+
+                <a href="settings.html" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span class="sidebar-text">Settings</span>
+                </a>
+
+                <a href="admin-users.html" class="nav-item" style="margin-top: 2rem; border-top: 2px solid var(--color-concrete); padding-top: 1rem;">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="sidebar-text">Admin</span>
+                </a>
+            </div>
+
+            <div style="margin-top: auto; padding: var(--space-md);">
+                <button onclick="logout()" class="nav-item w-full hover:bg-red-500/10 hover:border-l-red-500">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span class="sidebar-text">Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content grid-bg p-6">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="neon-lime text-5xl mb-2" style="font-family: var(--font-display);">WEEK GAME</h1>
+                <p class="text-white/70 text-lg" style="font-family: var(--font-body); font-weight: 600;">Complete tasks and earn points. Claim rewards with your balance.</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="card-brutal p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-white/70 text-sm uppercase mb-1" style="font-family: var(--font-mono);">Total Points</div>
+                        <div class="neon-lime text-3xl" style="font-family: var(--font-display);" id="totalPoints">0</div>
+                    </div>
+                    <div class="text-5xl">🎯</div>
+                </div>
+
+                <div class="card-brutal-magenta p-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-white/70 text-sm uppercase mb-1" style="font-family: var(--font-mono);">Available Balance</div>
+                        <div class="neon-magenta text-3xl" style="font-family: var(--font-display);" id="balancePoints">0</div>
+                    </div>
+                    <div class="text-5xl">💎</div>
+                </div>
+
+                <div class="card-brutal-cyan p-4 flex justify-end">
+                    <button id="resetButton" class="btn-brutal btn-magenta">
+                        ⚠ RESET GAME
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Table -->
+            <div class="card-brutal p-6 mb-8 overflow-x-auto">
+                <table class="table-brutal">
+                    <thead>
+                        <tr>
+                            <th>TASK</th>
+                            <th>MON</th>
+                            <th>TUE</th>
+                            <th>WED</th>
+                            <th>THU</th>
+                            <th>FRI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Easy Task -->
+                        <tr data-difficulty="easy">
+                            <td class="level-easy text-left font-bold">
+                                Match pairs of cards
+                                <span class="text-mono text-xs ml-2">+1pt</span>
+                            </td>
+                            <td><button class="btn-brutal btn-lime btn-small" onclick="toggleTask(this, 'easy')">CLICK</button></td>
+                            <td><span class="star completed" style="color: var(--color-success);">★</span></td>
+                            <td><button class="btn-brutal btn-lime btn-small" onclick="toggleTask(this, 'easy')">CLICK</button></td>
+                            <td><span class="text-white/30">✗</span></td>
+                            <td><button class="btn-brutal btn-lime btn-small" onclick="toggleTask(this, 'easy')">CLICK</button></td>
+                        </tr>
+
+                        <!-- Medium Task -->
+                        <tr data-difficulty="medium">
+                            <td class="level-medium text-left font-bold">
+                                Find hidden words
+                                <span class="text-mono text-xs ml-2">+2pt</span>
+                            </td>
+                            <td><button class="btn-brutal btn-cyan btn-small" onclick="toggleTask(this, 'medium')">CLICK</button></td>
+                            <td><button class="btn-brutal btn-cyan btn-small" onclick="toggleTask(this, 'medium')">CLICK</button></td>
+                            <td><span class="star completed" style="color: var(--color-cyan);">★</span></td>
+                            <td><button class="btn-brutal btn-cyan btn-small" onclick="toggleTask(this, 'medium')">CLICK</button></td>
+                            <td><button class="btn-brutal btn-cyan btn-small" onclick="toggleTask(this, 'medium')">CLICK</button></td>
+                        </tr>
+
+                        <!-- Hard Task -->
+                        <tr data-difficulty="hard">
+                            <td class="level-hard text-left font-bold">
+                                Solve math problems
+                                <span class="text-mono text-xs ml-2">+3pt</span>
+                            </td>
+                            <td><span class="star completed" style="color: var(--color-amber);">★</span></td>
+                            <td><button class="btn-brutal btn-small" style="border-color: var(--color-amber); color: var(--color-amber);" onclick="toggleTask(this, 'hard')">CLICK</button></td>
+                            <td><button class="btn-brutal btn-small" style="border-color: var(--color-amber); color: var(--color-amber);" onclick="toggleTask(this, 'hard')">CLICK</button></td>
+                            <td><button class="btn-brutal btn-small" style="border-color: var(--color-amber); color: var(--color-amber);" onclick="toggleTask(this, 'hard')">CLICK</button></td>
+                            <td><span class="text-white/30">✗</span></td>
+                        </tr>
+
+                        <!-- Bonus Row -->
+                        <tr style="background: transparent;">
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td style="border: none; text-align: center;">
+                                <span style="color: #FFD700; font-size: 2rem; filter: drop-shadow(0 0 10px #FFD700);">★</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rewards Section -->
+            <div class="card-brutal p-6">
+                <h2 class="neon-magenta text-3xl mb-6" style="font-family: var(--font-display);">REWARDS SHOP</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card-brutal p-6 text-center" style="border-color: var(--color-success);">
+                        <div class="text-6xl mb-3">🍬</div>
+                        <h3 class="text-xl mb-2" style="font-family: var(--font-display); color: var(--color-success);">M&Ms</h3>
+                        <p class="text-white/70 mb-4 text-sm" style="font-family: var(--font-mono);">Cost: 2 points</p>
+                        <button id="claimMMs" class="btn-brutal btn-small w-full" style="border-color: var(--color-success); color: var(--color-success);" disabled>
+                            CLAIM
+                        </button>
+                    </div>
+
+                    <div class="card-brutal p-6 text-center" style="border-color: var(--color-amber);">
+                        <div class="text-6xl mb-3">🥤</div>
+                        <h3 class="text-xl mb-2" style="font-family: var(--font-display); color: var(--color-amber);">BIBS</h3>
+                        <p class="text-white/70 mb-4 text-sm" style="font-family: var(--font-mono);">Cost: 4 points</p>
+                        <button id="claimBibs" class="btn-brutal btn-small w-full" style="border-color: var(--color-amber); color: var(--color-amber);" disabled>
+                            CLAIM
+                        </button>
+                    </div>
+
+                    <div class="card-brutal p-6 text-center" style="border-color: var(--color-magenta);">
+                        <div class="text-6xl mb-3">🍫</div>
+                        <h3 class="text-xl mb-2" style="font-family: var(--font-display); color: var(--color-magenta);">CARAMEL</h3>
+                        <p class="text-white/70 mb-4 text-sm" style="font-family: var(--font-mono);">Cost: 6 points</p>
+                        <button id="claimCaramel" class="btn-brutal btn-small w-full" style="border-color: var(--color-magenta); color: var(--color-magenta);" disabled>
+                            CLAIM
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .star {
+            font-size: 2rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .table-brutal td {
+            text-align: center;
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            transform: none;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
+        }
+    </style>
+
+    <script>
+        const POINTS = { easy: 1, medium: 2, hard: 3 };
+        const REWARDS = { mms: 2, bibs: 4, caramel: 6 };
+
+        let gameState = JSON.parse(localStorage.getItem('weekGameState')) || {
+            totalPoints: 0,
+            balance: 0,
+            completedTasks: {}
+        };
+
+        function updateDisplay() {
+            document.getElementById('totalPoints').textContent = gameState.totalPoints;
+            document.getElementById('balancePoints').textContent = gameState.balance;
+
+            document.getElementById('claimMMs').disabled = gameState.balance < REWARDS.mms;
+            document.getElementById('claimBibs').disabled = gameState.balance < REWARDS.bibs;
+            document.getElementById('claimCaramel').disabled = gameState.balance < REWARDS.caramel;
+        }
+
+        function toggleTask(btn, difficulty) {
+            const cell = btn.parentElement;
+            const row = btn.closest('tr');
+            const rowIndex = row.rowIndex;
+            const cellIndex = cell.cellIndex;
+            const taskKey = `${rowIndex}-${cellIndex}`;
+
+            const starColors = {
+                easy: 'var(--color-success)',
+                medium: 'var(--color-cyan)',
+                hard: 'var(--color-amber)'
+            };
+
+            if (gameState.completedTasks[taskKey]) {
+                // Uncomplete
+                gameState.totalPoints -= POINTS[difficulty];
+                gameState.balance -= POINTS[difficulty];
+                delete gameState.completedTasks[taskKey];
+                cell.innerHTML = `<button class="btn-brutal btn-${difficulty === 'easy' ? 'lime' : difficulty === 'medium' ? 'cyan' : 'small'} btn-small" onclick="toggleTask(this, '${difficulty}')">CLICK</button>`;
+            } else {
+                // Complete
+                gameState.totalPoints += POINTS[difficulty];
+                gameState.balance += POINTS[difficulty];
+                gameState.completedTasks[taskKey] = difficulty;
+                cell.innerHTML = `<span class="star completed" style="color: ${starColors[difficulty]};">★</span>`;
+            }
+
+            localStorage.setItem('weekGameState', JSON.stringify(gameState));
+            updateDisplay();
+        }
+
+        function claimReward(type, cost) {
+            if (gameState.balance >= cost) {
+                gameState.balance -= cost;
+                localStorage.setItem('weekGameState', JSON.stringify(gameState));
+                updateDisplay();
+                showNotification(`${type} claimed! (-${cost} points)`, 'success');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = 'notification-brutal notification-' + type;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        document.getElementById('resetButton').addEventListener('click', () => {
+            if (confirm('Reset all progress?')) {
+                gameState = { totalPoints: 0, balance: 0, completedTasks: {} };
+                localStorage.setItem('weekGameState', JSON.stringify(gameState));
+                location.reload();
+            }
+        });
+
+        document.getElementById('claimMMs').addEventListener('click', () => claimReward('M&Ms', REWARDS.mms));
+        document.getElementById('claimBibs').addEventListener('click', () => claimReward('Bibs', REWARDS.bibs));
+        document.getElementById('claimCaramel').addEventListener('click', () => claimReward('Caramel', REWARDS.caramel));
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'login-new.html';
+            }
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>
