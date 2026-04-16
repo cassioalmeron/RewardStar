@@ -50,7 +50,7 @@ const Settings: React.FC = () => {
     try {
       const updateData: UpdateUserRequest = {
         name: formData.name,
-        email: formData.email
+        email: user?.isGoogleAccount ? user.email : formData.email
       };
 
       if (formData.newPassword) {
@@ -107,6 +107,7 @@ const Settings: React.FC = () => {
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
               maxLength={320}
+              disabled={user?.isGoogleAccount}
             />
           </div>
         </div>
