@@ -50,25 +50,29 @@ interface GameCellProps {
   index: number;
   onToggle: (index: number, day: DayOfWeek) => void;
   isCompleted: boolean;
+  isLoading: boolean;
 }
 
-const GameCell: React.FC<GameCellProps> = ({ game, day, index, onToggle, isCompleted }) => {
+const GameCell: React.FC<GameCellProps> = ({ game, day, index, onToggle, isCompleted, isLoading }) => {
   if (game[day] === false) {
     return <span className="disabled-text">X</span>;
   }
 
+  if (isLoading) {
+    return <span className="spinner spinner-sm" />;
+  }
+
   if (isCompleted) {
-    // Determine star color based on game level
-    let starColor = '#facc15'; // default yellow
+    let starColor = '#facc15';
     switch (game.level) {
       case Level.Easy:
-        starColor = '#66bb6a'; // green
+        starColor = '#66bb6a';
         break;
       case Level.Medium:
-        starColor = '#42a5f5'; // blue
+        starColor = '#42a5f5';
         break;
       case Level.Hard:
-        starColor = '#ffa726'; // orange
+        starColor = '#ffa726';
         break;
     }
     return <StarIcon color={starColor} size={32} />;
@@ -92,6 +96,8 @@ const Game: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [loadingCells, setLoadingCells] = useState<Set<string>>(new Set());
+  const [loadingRewards, setLoadingRewards] = useState<Set<RewardType>>(new Set());
 
   const loadGameData = useCallback(async () => {
     setLoading(true);
@@ -122,44 +128,9 @@ const Game: React.FC = () => {
 
   const handleDayToggle = async (index: number, day: DayOfWeek) => {
     const game = games[index];
-    const gameCompletions = completions[game.id] || {
-      monday: false,
-      tuesday: false,
-      wednesday: false,
-      thursday: false,
-      friday: false
-    };
+    const cellKey = `${game.id}-${day}`;
 
-    const isCurrentlyCompleted = gameCompletions[day];
-
-    // Optimistic UI update
-    const prevCompletions = { ...completions };
-    const prevTotalPoints = totalPoints;
-    const prevBalance = balance;
-
-    setCompletions(prev => ({
-      ...prev,
-      [game.id]: {
-        ...gameCompletions,
-        [day]: !isCurrentlyCompleted
-      }
-    }));
-
-    // Optimistic points calculation (matches backend POINTS_PER_LEVEL)
-    const pointsMap: Record<Level, number> = {
-      [Level.Easy]: 1,
-      [Level.Medium]: 2,
-      [Level.Hard]: 3
-    };
-    const points = pointsMap[game.level] || 0;
-
-    if (isCurrentlyCompleted) {
-      setTotalPoints(prev => prev - points);
-      setBalance(prev => prev - points);
-    } else {
-      setTotalPoints(prev => prev + points);
-      setBalance(prev => prev + points);
-    }
+    setLoadingCells(prev => new Set(prev).add(cellKey));
 
     try {
       const response = await api.post('Game/toggle', {
@@ -167,15 +138,31 @@ const Game: React.FC = () => {
         day: day
       });
 
-      // Sync with server response
+      const gameCompletions = completions[game.id] || {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false
+      };
+
+      setCompletions(prev => ({
+        ...prev,
+        [game.id]: {
+          ...gameCompletions,
+          [day]: !gameCompletions[day]
+        }
+      }));
       setTotalPoints(response.data.totalPoints);
       setBalance(response.data.balance);
     } catch (err) {
-      // Revert optimistic update
-      setCompletions(prevCompletions);
-      setTotalPoints(prevTotalPoints);
-      setBalance(prevBalance);
       toast.error('Failed to save completion. Please try again.');
+    } finally {
+      setLoadingCells(prev => {
+        const next = new Set(prev);
+        next.delete(cellKey);
+        return next;
+      });
     }
   };
 
@@ -233,19 +220,22 @@ const Game: React.FC = () => {
       return;
     }
 
-    // Optimistic UI update
-    const prevBalance = balance;
-    setBalance(prev => prev - cost);
+    setLoadingRewards(prev => new Set(prev).add(rewardType));
 
     try {
-      await api.post('Game/claim', {
+      const response = await api.post('Game/claim', {
         rewardType: rewardType
       });
+      setBalance(response.data.balance);
       toast.success(`Successfully claimed ${rewardName}! (-${cost} points)`);
     } catch (err) {
-      // Revert optimistic update
-      setBalance(prevBalance);
       toast.error(`Failed to claim ${rewardName}. Please try again.`);
+    } finally {
+      setLoadingRewards(prev => {
+        const next = new Set(prev);
+        next.delete(rewardType);
+        return next;
+      });
     }
   };
 
@@ -322,6 +312,7 @@ const Game: React.FC = () => {
                     index={index}
                     onToggle={handleDayToggle}
                     isCompleted={isTaskCompleted(game.id, 'monday')}
+                    isLoading={loadingCells.has(`${game.id}-monday`)}
                   />
                 </td>
                 <td>
@@ -331,6 +322,7 @@ const Game: React.FC = () => {
                     index={index}
                     onToggle={handleDayToggle}
                     isCompleted={isTaskCompleted(game.id, 'tuesday')}
+                    isLoading={loadingCells.has(`${game.id}-tuesday`)}
                   />
                 </td>
                 <td>
@@ -340,6 +332,7 @@ const Game: React.FC = () => {
                     index={index}
                     onToggle={handleDayToggle}
                     isCompleted={isTaskCompleted(game.id, 'wednesday')}
+                    isLoading={loadingCells.has(`${game.id}-wednesday`)}
                   />
                 </td>
                 <td>
@@ -349,6 +342,7 @@ const Game: React.FC = () => {
                     index={index}
                     onToggle={handleDayToggle}
                     isCompleted={isTaskCompleted(game.id, 'thursday')}
+                    isLoading={loadingCells.has(`${game.id}-thursday`)}
                   />
                 </td>
                 <td>
@@ -358,6 +352,7 @@ const Game: React.FC = () => {
                     index={index}
                     onToggle={handleDayToggle}
                     isCompleted={isTaskCompleted(game.id, 'friday')}
+                    isLoading={loadingCells.has(`${game.id}-friday`)}
                   />
                 </td>
               </tr>
@@ -399,26 +394,32 @@ const Game: React.FC = () => {
             <button
               onClick={() => handleClaimReward(RewardType.MMs, 'M&Ms', REWARD_COSTS[RewardType.MMs])}
               className="reward-button reward-button-mms"
-              disabled={balance < REWARD_COSTS[RewardType.MMs]}
+              disabled={balance < REWARD_COSTS[RewardType.MMs] || loadingRewards.has(RewardType.MMs)}
             >
-              Claim M&Ms<br />
-              <span className="reward-cost">(2 points)</span>
+              {loadingRewards.has(RewardType.MMs)
+                ? <span className="spinner" />
+                : <>Claim M&Ms<br /><span className="reward-cost">(2 points)</span></>
+              }
             </button>
             <button
               onClick={() => handleClaimReward(RewardType.Bibs, 'Bibs', REWARD_COSTS[RewardType.Bibs])}
               className="reward-button reward-button-bibs"
-              disabled={balance < REWARD_COSTS[RewardType.Bibs]}
+              disabled={balance < REWARD_COSTS[RewardType.Bibs] || loadingRewards.has(RewardType.Bibs)}
             >
-              Claim Bibs<br />
-              <span className="reward-cost">(4 points)</span>
+              {loadingRewards.has(RewardType.Bibs)
+                ? <span className="spinner" />
+                : <>Claim Bibs<br /><span className="reward-cost">(4 points)</span></>
+              }
             </button>
             <button
               onClick={() => handleClaimReward(RewardType.Caramel, 'Caramel', REWARD_COSTS[RewardType.Caramel])}
               className="reward-button reward-button-caramel"
-              disabled={balance < REWARD_COSTS[RewardType.Caramel]}
+              disabled={balance < REWARD_COSTS[RewardType.Caramel] || loadingRewards.has(RewardType.Caramel)}
             >
-              Claim Caramel<br />
-              <span className="reward-cost">(6 points)</span>
+              {loadingRewards.has(RewardType.Caramel)
+                ? <span className="spinner" />
+                : <>Claim Caramel<br /><span className="reward-cost">(6 points)</span></>
+              }
             </button>
           </div>
         </div>
