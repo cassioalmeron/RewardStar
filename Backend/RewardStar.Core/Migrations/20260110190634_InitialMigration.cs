@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using RewardStar.Core.Migrations.ProviderTypes;
 
 #nullable disable
 
@@ -12,19 +12,15 @@ namespace RewardStar.Core.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Detect database provider at runtime for cross-database compatibility
-            var isSqlite = migrationBuilder.ActiveProvider == "Microsoft.EntityFrameworkCore.Sqlite";
-            var isPostgres = migrationBuilder.ActiveProvider == "Npgsql.EntityFrameworkCore.PostgreSQL";
-            var boolType = isSqlite ? "INTEGER" : "boolean";
-            var dateTimeType = isSqlite ? "TEXT" : "timestamp without time zone";
+            var providerTypes = MigrationProviderTypes.For(migrationBuilder.ActiveProvider);
+            var boolType = providerTypes.Bool;
+            var dateTimeType = providerTypes.DateTime;
 
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = providerTypes.AsAutoIncrementPrimaryKey(table.Column<int>(nullable: false)),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Email = table.Column<string>(maxLength: 320, nullable: false),
                     Password = table.Column<string>(maxLength: 500, nullable: true),
@@ -42,9 +38,7 @@ namespace RewardStar.Core.Migrations
                 name: "Activity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = providerTypes.AsAutoIncrementPrimaryKey(table.Column<int>(nullable: false)),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
                     Level = table.Column<int>(nullable: false),
                     Monday = table.Column<bool>(type: boolType, nullable: false),

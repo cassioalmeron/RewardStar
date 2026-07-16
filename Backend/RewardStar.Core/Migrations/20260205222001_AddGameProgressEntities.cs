@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using RewardStar.Core.Migrations.ProviderTypes;
 
 #nullable disable
 
@@ -12,10 +12,9 @@ namespace RewardStar.Core.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Cross-database compatibility: type detection
-            var isSqlite = migrationBuilder.ActiveProvider == "Microsoft.EntityFrameworkCore.Sqlite";
-            var boolType = isSqlite ? "INTEGER" : "boolean";
-            var dateTimeType = isSqlite ? "TEXT" : "timestamp without time zone";
+            var providerTypes = MigrationProviderTypes.For(migrationBuilder.ActiveProvider);
+            var boolType = providerTypes.Bool;
+            var dateTimeType = providerTypes.DateTime;
 
             migrationBuilder.DropIndex(
                 name: "IX_User_GoogleAuthId",
@@ -25,9 +24,7 @@ namespace RewardStar.Core.Migrations
                 name: "GameCompletion",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = providerTypes.AsAutoIncrementPrimaryKey(table.Column<int>(type: "INTEGER", nullable: false)),
                     ActivityId = table.Column<int>(type: "INTEGER", nullable: false),
                     Day = table.Column<int>(type: "INTEGER", nullable: false),
                     Completed = table.Column<bool>(type: boolType, nullable: false),
@@ -54,9 +51,7 @@ namespace RewardStar.Core.Migrations
                 name: "GameState",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = providerTypes.AsAutoIncrementPrimaryKey(table.Column<int>(type: "INTEGER", nullable: false)),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     TotalPoints = table.Column<int>(type: "INTEGER", nullable: false),
                     Balance = table.Column<int>(type: "INTEGER", nullable: false)
@@ -76,9 +71,7 @@ namespace RewardStar.Core.Migrations
                 name: "RewardClaim",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = providerTypes.AsAutoIncrementPrimaryKey(table.Column<int>(type: "INTEGER", nullable: false)),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     RewardType = table.Column<int>(type: "INTEGER", nullable: false),
                     PointsCost = table.Column<int>(type: "INTEGER", nullable: false),

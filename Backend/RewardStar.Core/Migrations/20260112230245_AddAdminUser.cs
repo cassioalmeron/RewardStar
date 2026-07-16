@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using RewardStar.Core.Constants;
+using RewardStar.Core.Migrations.ProviderTypes;
 
 #nullable disable
 
@@ -11,9 +12,7 @@ namespace RewardStar.Core.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Detect database provider for cross-database compatibility
-            var isSqlite = migrationBuilder.ActiveProvider == "Microsoft.EntityFrameworkCore.Sqlite";
-            var isPostgres = migrationBuilder.ActiveProvider == "Npgsql.EntityFrameworkCore.PostgreSQL";
+            var providerTypes = MigrationProviderTypes.For(migrationBuilder.ActiveProvider);
 
             // Hash the admin password using BCrypt with cost factor 12
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword("admin@123", 12);
@@ -21,22 +20,18 @@ namespace RewardStar.Core.Migrations
             // Insert admin user with explicit ID = ADMIN_USER_ID
             var currentDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
 
-            // Use provider-specific boolean value for Active column
-            var activeValue = isSqlite ? "1" : "true";
+            var activeValue = providerTypes.BoolLiteral(true);
 
             migrationBuilder.Sql($@"
                 INSERT INTO ""User"" (""Id"", ""Name"", ""Email"", ""Password"", ""GoogleAuthId"", ""Active"", ""CreatedAt"", ""LastLoginAt"")
                 VALUES ({UserConstants.ADMIN_USER_ID}, 'Administrator', 'admin@rewardstar.com', '{hashedPassword}', NULL, {activeValue}, '{currentDateTime}', NULL);
             ");
 
-            // For PostgreSQL: Ensure the sequence starts from 2 to avoid conflicts
-            // This will be ignored by SQLite (which doesn't have sequences)
-            if (isPostgres)
-            {
-                migrationBuilder.Sql(@"
-                    SELECT setval(pg_get_serial_sequence('""User""', 'Id'), COALESCE(MAX(""Id""), 1)) FROM ""User"";
-                ");
-            }
+            // Ensure the identity sequence starts after the explicit Id we just inserted;
+            // no-op on providers without sequences (e.g. SQLite).
+            var resetSequenceSql = providerTypes.ResetIdentitySequenceSql("User", "Id");
+            if (!string.IsNullOrEmpty(resetSequenceSql))
+                migrationBuilder.Sql(resetSequenceSql);
         }
 
         /// <inheritdoc />
