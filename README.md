@@ -8,7 +8,7 @@ A full-stack application for managing and tracking rewards activities. Built wit
 RewardStar/
 ├── Backend/                 # ASP.NET Core 8.0 API
 │   ├── RewardStar.Api/     # API controllers and configuration
-│   ├── RewardStart.Core/   # Data models and database context
+│   ├── RewardStar.Core/   # Data models and database context
 │   ├── RewardStar.Console/ # Console application
 │   ├── Dockerfile          # Docker build configuration for backend
 │   └── entrypoint.sh       # Container startup script
@@ -130,7 +130,7 @@ dotnet build -c Release
 dotnet test
 
 # Run migrations
-dotnet ef database update --project Backend/RewardStart.Core/
+dotnet ef database update --project Backend/RewardStar.Core/
 ```
 
 #### Frontend
@@ -200,15 +200,15 @@ The backend API is documented using Swagger/OpenAPI. When running locally or in 
 
 The application uses Entity Framework Core 8.0 with SQLite:
 
-1. **Database Context**: `RewardStartDbContext` in `Backend/RewardStart.Core/RewardStartDbContext.cs`
-2. **Configuration**: Entity configurations in `Backend/RewardStart.Core/` with `IEntityTypeConfiguration`
-3. **Migrations**: Stored in `Backend/RewardStart.Core/Migrations/`
+1. **Database Context**: `RewardStarDbContext` in `Backend/RewardStar.Core/RewardStarDbContext.cs`
+2. **Configuration**: Entity configurations in `Backend/RewardStar.Core/` with `IEntityTypeConfiguration`
+3. **Migrations**: Stored in `Backend/RewardStar.Core/Migrations/`
 
 ### Running Migrations
 
 **Locally:**
 ```bash
-cd Backend/RewardStart.Core
+cd Backend/RewardStar.Core
 dotnet ef database update
 ```
 
