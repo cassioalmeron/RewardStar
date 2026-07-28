@@ -15,6 +15,10 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - Google__ClientId=${GOOGLE_CLIENT_ID}
       - Jwt__ExpiryMinutes=${JWT_EXPIRY_MINUTES}
+      # OpenTelemetry: empty/absent disables the exporter.
+      # From a container the dashboard on the host is http://host.docker.internal:18889
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      - OTEL_EXPORTER_OTLP_PROTOCOL=${OTEL_EXPORTER_OTLP_PROTOCOL:-grpc}
     volumes:
       - backend-data:/app/data
     networks:

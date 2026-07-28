@@ -8,6 +8,8 @@ using RewardStar.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddApiTelemetry();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
